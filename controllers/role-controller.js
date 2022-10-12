@@ -39,3 +39,13 @@ exports.getById = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.save = async (req, res, next) => {
+  try {
+    const role = req.body;
+    await roleService.save(role);
+    return res.status(StatusCode.CREATED).json({ message: "Created successfully" });
+  } catch (error) {
+    return next(error);
+  }
+};

@@ -14,6 +14,7 @@ exports.authorizeToken = async (req, res, next) => {
     const token = authorizationHeader.slice(7);
     const payload = await jwt.verify(token);
     const user = await userService.getByEmail(payload.email);
+
     req.user = user;
     next();
   } catch (error) {

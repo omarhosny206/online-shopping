@@ -11,6 +11,7 @@ const Product = sequelize.define(
     },
     name: {
       type: Sequelize.STRING,
+      unique: true,
       allowNull: false,
     },
   },

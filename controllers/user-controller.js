@@ -1,6 +1,5 @@
 const userService = require("../services/user-service");
 const StatusCode = require("../utils/status-code");
-const ResponseError = require("../utils/response-error");
 
 exports.getAll = async (req, res, next) => {
   try {

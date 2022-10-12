@@ -1,5 +1,6 @@
 const roleRepository = require("../repositories/role-repository");
 const ResponseError = require("../utils/response-error");
+const StatusCode = require("../utils/status-code");
 
 exports.getAll = async () => {
   try {
@@ -32,6 +33,20 @@ exports.getUsers = async (name) => {
   try {
     const users = await roleRepository.getUsers(name);
     return users;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.save = async (role) => {
+  try {
+    const storedRole = await this.search({ name: role.name });
+
+    if (storedRole) {
+      throw ResponseError.of("Can't save, this role is already exist", StatusCode.BAD_REQUEST);
+    }
+
+    await roleRepository.save(role);
   } catch (error) {
     throw ResponseError.from(error);
   }

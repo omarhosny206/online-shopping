@@ -1,6 +1,5 @@
 const tables = require("../utils/tables");
 const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
 
 const Role = tables.role;
 const User = tables.user;
