@@ -23,10 +23,10 @@ exports.authorizeToken = async (req, res, next) => {
 
 exports.authorizeRole = (allowedRoles) => async (req, res, next) => {
   try {
-    const roles = await userService.getRoles(req.user.id);
-    const intersectedRoles = roles.filter((role) => allowedRoles.includes(role));
+    const role = await userService.getRole(req.user.id);
+    const isAuthorized = allowedRoles.includes(role);
 
-    if (!intersectedRoles.length) {
+    if (!isAuthorized) {
       throw ResponseError.of("Unauthorized: your role is not authorized to view this resource", StatusCode.FORBIDDED);
     }
 

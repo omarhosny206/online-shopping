@@ -37,10 +37,10 @@ exports.getByEmail = async (email) => {
   }
 };
 
-exports.getRoles = async (id) => {
+exports.getRole = async (id) => {
   try {
-    const roles = await userRepository.getRoles(id);
-    return roles;
+    const role = await userRepository.getRole(id);
+    return role;
   } catch (error) {
     throw ResponseError.from(error);
   }

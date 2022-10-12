@@ -31,11 +31,11 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.getRoles = async (req, res, next) => {
+exports.getRole = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
-    const roles = await userService.getRoles(id);
-    return res.status(StatusCode.OK).json(roles);
+    const role = await userService.getRole(id);
+    return res.status(StatusCode.OK).json({ role: role });
   } catch (error) {
     return next(error);
   }

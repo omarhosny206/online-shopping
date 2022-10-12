@@ -43,16 +43,16 @@ exports.getByEmail = async (email) => {
   }
 };
 
-exports.getRoles = async (id) => {
+exports.getRole = async (id) => {
   try {
     const user = await User.findByPk(id, { include: [Role], raw: false });
 
     if (!user) {
-      return [];
+      return null;
     }
 
-    const roles = user.roles.map((role) => role.name);
-    return roles;
+    const role = user.role.name;
+    return role;
   } catch (error) {
     throw ResponseError.from(error);
   }
