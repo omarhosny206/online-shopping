@@ -10,5 +10,6 @@ router.use(authorization.authorizeToken);
 router.get("/", authorization.authorizeRole(["admin"]), categoryController.getAll);
 router.get("/search", authorization.authorizeRole(["admin", "seller", "customer"]), categoryController.search);
 router.get("/:id", authorization.authorizeRole(["admin", "seller"]), categoryController.getById);
+
 router.post("/", authorization.authorizeRole(["admin", "seller"]), validator.validate(categorySchema), categoryController.save);
 module.exports = router;
