@@ -4,6 +4,7 @@ const cartService = require("../services/cart-service");
 const bcrypt = require("bcrypt");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
+const Roles = require("../utils/roles");
 
 exports.signup = async (user) => {
   try {
@@ -25,7 +26,7 @@ exports.signup = async (user) => {
 
     const savedUser = await userService.save(user);
 
-    if (roleName === "customer") {
+    if (roleName === Roles.CUSTOMER) {
       await cartService.save(savedUser.id);
     }
   } catch (error) {
