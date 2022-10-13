@@ -1,5 +1,6 @@
 const userService = require("../services/user-service");
 const roleService = require("../services/role-service");
+const cartService = require("../services/cart-service");
 const bcrypt = require("bcrypt");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
@@ -21,7 +22,12 @@ exports.signup = async (user) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     user.roleId = storedRole.id;
-    await userService.save(user);
+
+    const savedUser = await userService.save(user);
+
+    if (roleName === "customer") {
+      await cartService.save(savedUser.id);
+    }
   } catch (error) {
     throw ResponseError.from(error);
   }

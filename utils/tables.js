@@ -8,7 +8,7 @@ const OrderProducts = require("../models/order-products-model");
 const Cart = require("../models/cart-model");
 const CartProducts = require("../models/cart-products-model");
 
-const tables = {
+const tables = Object.freeze({
   user: User,
   role: Role,
   category: Category,
@@ -18,6 +18,6 @@ const tables = {
   orderProducts: OrderProducts,
   cart: Cart,
   cartProducts: CartProducts,
-};
+});
 
 module.exports = tables;
