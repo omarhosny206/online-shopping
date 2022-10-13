@@ -31,41 +31,6 @@ exports.getProductsById = async (id) => {
   }
 };
 
-// exports.search = async (searchCritreia) => {
-//   try {
-//     const predicate = { where: { ...searchCritreia } };
-//     const role = await Role.findOne(predicate);
-//     return role;
-//   } catch (error) {
-//     throw ResponseError.from(error);
-//   }
-// };
-
-// exports.getById = async (id) => {
-//   try {
-//     const role = await Role.findByPk(id);
-//     return role;
-//   } catch (error) {
-//     throw ResponseError.from(error);
-//   }
-// };
-
-// exports.getUsers = async (name) => {
-//   try {
-//     const predicate = { where: { name: name } };
-//     const role = await Role.findOne({ ...predicate, include: [User], raw: false });
-
-//     if (!role) {
-//       return [];
-//     }
-
-//     const users = role.users;
-//     return users;
-//   } catch (error) {
-//     throw ResponseError.from(error);
-//   }
-// };
-
 exports.save = async (userProduct) => {
   try {
     let storedUser = userService.getById(userProduct.userId);
