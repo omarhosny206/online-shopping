@@ -3,6 +3,24 @@ const userService = require("../services/user-service");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
 
+exports.getById = async (id) => {
+  try {
+    const cart = await cartRepository.getById(id);
+    return cart;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.getUser = async (id) => {
+  try {
+    const user = await cartRepository.getUser(id);
+    return user;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.getByUserId = async (userId) => {
   try {
     const cart = await cartRepository.getByUserId(userId);

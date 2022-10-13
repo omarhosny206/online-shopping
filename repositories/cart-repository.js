@@ -2,6 +2,26 @@ const tables = require("../utils/tables");
 const ResponseError = require("../utils/response-error");
 
 const Cart = tables.cart;
+const User = tables.user;
+
+exports.getById = async (id) => {
+  try {
+    const cart = await Cart.findByPk(id);
+    return cart;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.getUser = async (id) => {
+  try {
+    const cart = await Cart.findByPk(id, { include: [User], raw: false });
+    const user = cart.user;
+    return user;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
 
 exports.getByUserId = async (userId) => {
   try {

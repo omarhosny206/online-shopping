@@ -1,7 +1,6 @@
 const productService = require("../services/product-service");
 const tables = require("../utils/tables");
 const ResponseError = require("../utils/response-error");
-const { product } = require("../utils/tables");
 
 const UserProducts = tables.userProducts;
 const User = tables.user;
@@ -47,6 +46,7 @@ exports.getProductsById = async (id) => {
 exports.save = async (userProduct) => {
   try {
     const savedUserProduct = await UserProducts.create(userProduct);
+    return savedUserProduct;
   } catch (error) {
     throw ResponseError.from(error);
   }
