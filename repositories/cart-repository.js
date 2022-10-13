@@ -38,9 +38,9 @@ exports.getByUserId = async (userId) => {
   }
 };
 
-exports.getInfo = async (id) => {
+exports.getInfo = async (cart) => {
   try {
-    const cartProducts = await cartProductsService.search({ cartId: id });
+    const cartProducts = await cartProductsService.search({ cartId: cart.id });
 
     const info = await Promise.all(
       cartProducts.map(async (cartProduct) => {

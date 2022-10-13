@@ -13,8 +13,9 @@ exports.getByUserId = async (req, res, next) => {
 
 exports.getInfo = async (req, res, next) => {
   try {
-    const id = req.user.id;
-    const info = await cartService.getInfo(id);
+    const userId = req.user.id;
+    const cart = { id: null, userId: userId };
+    const info = await cartService.getInfo(cart);
     return res.status(StatusCode.OK).json(info);
   } catch (error) {
     return next(error);

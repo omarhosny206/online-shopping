@@ -30,15 +30,16 @@ exports.getByUserId = async (userId) => {
   }
 };
 
-exports.getInfo = async (id) => {
+exports.getInfo = async (cart) => {
   try {
-    const storedCart = await this.getByUserId(id);
+    const storedCart = await this.getByUserId(cart.userId);
 
     if (!storedCart) {
       throw ResponseError.of("Can't get info, this user does not exist", StatusCode.BAD_REQUEST);
     }
 
-    const info = await cartRepository.getInfo(storedCart.id);
+    cart.id = storedCart.id;
+    const info = await cartRepository.getInfo(cart);
     return info;
   } catch (error) {
     throw ResponseError.from(error);
