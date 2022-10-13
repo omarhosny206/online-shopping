@@ -31,6 +31,6 @@ exports.create = () => {
   tables.cartProducts.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
   tables.user.hasMany(tables.cartProducts);
 
-  tables.cartProducts.belongsTo(tables.order, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.order.hasMany(tables.cartProducts);
+  tables.cartProducts.belongsTo(tables.cart, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.cart.hasMany(tables.cartProducts);
 };
