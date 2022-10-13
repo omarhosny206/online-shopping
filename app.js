@@ -5,6 +5,7 @@ const app = express();
 
 const userRoute = require("./routes/user-route");
 const productRoute = require("./routes/product-route");
+const userProductsRoute = require("./routes/user-products-route");
 const categoryRoute = require("./routes/category-route");
 const roleRoute = require("./routes/role-route");
 const signupRoute = require("./routes/signup-route");
@@ -23,6 +24,7 @@ app.use("/signup", signupRoute);
 app.use("/login", loginRoute);
 app.use("/users", userRoute);
 app.use("/products", productRoute);
+app.use("/user-products", userProductsRoute);
 app.use("/categories", categoryRoute);
 app.use("/roles", roleRoute);
 

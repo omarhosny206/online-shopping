@@ -13,9 +13,9 @@ router.get("/search", authorization.authorizeRole(["admin", "seller", "customer"
 router.get("/:id", authorization.authorizeRole(["admin", "seller"]), productController.getById);
 router.get("/:id/categories", productController.getCategory);
 
-router.post("/", authorization.authorizeRole(["admin", "seller"]), validator.validate(productSchema), productController.save);
+router.post("/", authorization.authorizeRole(["admin"]), validator.validate(productSchema), productController.save);
 
-router.put("/", validator.validate(productUpdateSchema), productController.update);
+router.put("/", authorization.authorizeRole(["admin"]), validator.validate(productUpdateSchema), productController.update);
 
 router.delete("/:id", authorization.authorizeRole(["admin"]), productController.delete);
 
