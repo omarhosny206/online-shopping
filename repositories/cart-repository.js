@@ -1,3 +1,8 @@
+const cartProductsService = require("../services/cart-products-service");
+const productService = require("../services/product-service");
+const userService = require("../services/user-service");
+const userProductsService = require("../services/user-products-service");
+
 const tables = require("../utils/tables");
 const ResponseError = require("../utils/response-error");
 
@@ -28,6 +33,34 @@ exports.getByUserId = async (userId) => {
     const predicate = { where: { userId: userId } };
     const cart = await Cart.findOne(predicate);
     return cart;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.getInfo = async (id) => {
+  try {
+    const cartProducts = await cartProductsService.search({ cartId: id });
+
+    const info = await Promise.all(
+      cartProducts.map(async (cartProduct) => {
+        let product = productService.getById(cartProduct.productId);
+        let user = userService.getById(cartProduct.userId);
+        let userProduct = userProductsService.search({ userId: cartProduct.userId, productId: cartProduct.productId });
+
+        [product, user, userProduct] = await Promise.all([product, user, userProduct]);
+
+        return {
+          user: `${user.firstName} ${user.lastName}`,
+          product: product.name,
+          price: userProduct.price,
+          quantity: cartProduct.quantity,
+          totalPrice: userProduct.price * cartProduct.quantity,
+        };
+      })
+    );
+
+    return info;
   } catch (error) {
     throw ResponseError.from(error);
   }

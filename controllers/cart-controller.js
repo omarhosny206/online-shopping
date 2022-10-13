@@ -11,6 +11,16 @@ exports.getByUserId = async (req, res, next) => {
   }
 };
 
+exports.getInfo = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    const info = await cartService.getInfo(id);
+    return res.status(StatusCode.OK).json(info);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 exports.save = async (req, res, next) => {
   try {
     const userId = req.user.id;

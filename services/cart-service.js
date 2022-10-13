@@ -30,6 +30,21 @@ exports.getByUserId = async (userId) => {
   }
 };
 
+exports.getInfo = async (id) => {
+  try {
+    const storedCart = await this.getByUserId(id);
+
+    if (!storedCart) {
+      throw ResponseError.of("Can't get info, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    const info = await cartRepository.getInfo(storedCart.id);
+    return info;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.save = async (userId) => {
   try {
     let storedUser = userService.getById(userId);
