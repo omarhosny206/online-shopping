@@ -62,10 +62,42 @@ exports.save = async (cartProduct) => {
 
 exports.update = async (cartProduct) => {
   try {
-  } catch (error) {}
+    const storedCart = await cartService.getByUserId(cartProduct.customerId);
+
+    if (!storedCart) {
+      throw ResponseError.of("Can't update, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    cartProduct.cartId = storedCart.id;
+    const storedCartProduct = await this.searchOne({ cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId });
+
+    if (!storedCartProduct) {
+      throw ResponseError.of("Can't update, this product does not exist on the cart", StatusCode.BAD_REQUEST);
+    }
+
+    await cartProductsRepository.update(cartProduct);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
 };
 
 exports.delete = async (cartProduct) => {
   try {
-  } catch (error) {}
+    const storedCart = await cartService.getByUserId(cartProduct.customerId);
+
+    if (!storedCart) {
+      throw ResponseError.of("Can't delete, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    cartProduct.cartId = storedCart.id;
+    const storedCartProduct = await this.searchOne({ cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId });
+
+    if (!storedCartProduct) {
+      throw ResponseError.of("Can't delete, this product does not exist on the cart", StatusCode.BAD_REQUEST);
+    }
+
+    await cartProductsRepository.delete(cartProduct);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
 };
