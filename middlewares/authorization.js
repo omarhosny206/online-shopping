@@ -28,7 +28,7 @@ exports.authorizeRole = (allowedRoles) => async (req, res, next) => {
     const isAuthorized = allowedRoles.includes(role);
 
     if (!isAuthorized) {
-      throw ResponseError.of("Unauthorized: your role is not authorized to view this resource", StatusCode.FORBIDDED);
+      throw ResponseError.of("Unauthorized: your role is not authorized to interact with this resource", StatusCode.FORBIDDED);
     }
 
     next();

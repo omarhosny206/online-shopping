@@ -13,16 +13,6 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
-  try {
-    const predicate = { where: { ...searchCritreia } };
-    const users = await User.findAll(predicate);
-    return users;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
 exports.getById = async (id) => {
   try {
     const user = await User.findByPk(id);
@@ -37,6 +27,16 @@ exports.getByEmail = async (email) => {
     const predicate = { where: { email: email } };
     const user = await User.findOne(predicate);
     return user;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.search = async (searchCritreia) => {
+  try {
+    const predicate = { where: { ...searchCritreia } };
+    const users = await User.findAll(predicate);
+    return users;
   } catch (error) {
     throw ResponseError.from(error);
   }
@@ -59,7 +59,8 @@ exports.getRole = async (id) => {
 
 exports.save = async (user) => {
   try {
-    await User.create(user);
+    const savedUser = await User.create(user);
+    return savedUser;
   } catch (error) {
     throw ResponseError.from(error);
   }

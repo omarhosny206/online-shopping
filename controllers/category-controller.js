@@ -10,20 +10,20 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.search = async (req, res, next) => {
+exports.getById = async (req, res, next) => {
   try {
-    const searchCritreia = req.query;
-    const category = await categoryService.search(searchCritreia);
+    const id = parseInt(req.params.id);
+    const category = await categoryService.getById(id);
     return res.status(StatusCode.OK).json(category);
   } catch (error) {
     return next(error);
   }
 };
 
-exports.getById = async (req, res, next) => {
+exports.search = async (req, res, next) => {
   try {
-    const id = parseInt(req.params.id);
-    const category = await categoryService.getById(id);
+    const searchCritreia = req.query;
+    const category = await categoryService.search(searchCritreia);
     return res.status(StatusCode.OK).json(category);
   } catch (error) {
     return next(error);

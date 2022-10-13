@@ -12,16 +12,6 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
-  try {
-    const predicate = { where: { ...searchCritreia } };
-    const category = await Category.findOne(predicate);
-    return category;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
 exports.getById = async (id) => {
   try {
     const category = await Category.findByPk(id);
@@ -31,9 +21,21 @@ exports.getById = async (id) => {
   }
 };
 
+exports.search = async (searchCritreia) => {
+  try {
+    const predicate = { where: { ...searchCritreia } };
+    console.log(predicate);
+    const category = await Category.findOne(predicate);
+    return category;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.save = async (category) => {
   try {
-    await Category.create(category);
+    const savedCategory = await Category.create(category);
+    return savedCategory;
   } catch (error) {
     throw ResponseError.from(error);
   }

@@ -12,6 +12,7 @@ router.get("/", roleController.getAll);
 router.get("/search", authorization.authorizeRole(["admin"]), roleController.search);
 router.get("/:id", roleController.getById);
 router.get("/:name/users", roleController.getUsers);
+
 router.post("/", validator.validate(roleSchema), roleController.save);
 
 module.exports = router;

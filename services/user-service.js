@@ -10,15 +10,6 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
-  try {
-    const users = await userRepository.search(searchCritreia);
-    return users;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
 exports.getById = async (id) => {
   try {
     const user = await userRepository.getById(id);
@@ -32,6 +23,15 @@ exports.getByEmail = async (email) => {
   try {
     const user = await userRepository.getByEmail(email);
     return user;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.search = async (searchCritreia) => {
+  try {
+    const users = await userRepository.search(searchCritreia);
+    return users;
   } catch (error) {
     throw ResponseError.from(error);
   }

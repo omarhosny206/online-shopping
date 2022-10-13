@@ -12,15 +12,6 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
-  try {
-    const products = await productRepository.search(searchCritreia);
-    return products;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
 exports.getById = async (id) => {
   try {
     const product = await productRepository.getById(id);
@@ -30,10 +21,19 @@ exports.getById = async (id) => {
   }
 };
 
-exports.getByName = async (name) => {
+exports.search = async (searchCritreia) => {
   try {
-    const product = await productRepository.getByName(name);
-    return product;
+    const products = await productRepository.search(searchCritreia);
+    return products;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.getCategory = async (id) => {
+  try {
+    const category = await productRepository.getCategory(id);
+    return category;
   } catch (error) {
     throw ResponseError.from(error);
   }
@@ -55,6 +55,40 @@ exports.save = async (product) => {
 
     product.categoryId = category.id;
     await productRepository.save(product);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.update = async (product) => {
+  try {
+    const storedProduct = await this.getById(product.id);
+    const storedCategory = await categoryService.search({ name: product.categoryName });
+
+    if (!storedProduct) {
+      throw ResponseError.of("Can't update, this product does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    if (!storedCategory) {
+      throw ResponseError.of("Can't update, this category does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    product.categoryId = storedCategory.id;
+    await productRepository.update(product);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.delete = async (id) => {
+  try {
+    const storedProduct = await this.getById(id);
+
+    if (!storedProduct) {
+      throw ResponseError.of("Can't delete, this product does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    await productRepository.delete(id);
   } catch (error) {
     throw ResponseError.from(error);
   }

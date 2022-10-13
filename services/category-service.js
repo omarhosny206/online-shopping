@@ -11,18 +11,18 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
+exports.getById = async (id) => {
   try {
-    const category = await categoryRepository.search(searchCritreia);
+    const category = await categoryRepository.getById(id);
     return category;
   } catch (error) {
     throw ResponseError.from(error);
   }
 };
 
-exports.getById = async (id) => {
+exports.search = async (searchCritreia) => {
   try {
-    const category = await categoryRepository.getById(id);
+    const category = await categoryRepository.search(searchCritreia);
     return category;
   } catch (error) {
     throw ResponseError.from(error);
