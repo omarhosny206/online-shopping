@@ -13,6 +13,24 @@ exports.getAll = async () => {
   }
 };
 
+exports.search = async (searchCriteria) => {
+  try {
+    const userProduct = await userProductsRepository.search(searchCriteria);
+    return userProduct;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.getProductsById = async (id) => {
+  try {
+    const products = await userProductsRepository.getProductsById(id);
+    return products;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 // exports.search = async (searchCritreia) => {
 //   try {
 //     const predicate = { where: { ...searchCritreia } };
@@ -50,8 +68,11 @@ exports.getAll = async () => {
 
 exports.save = async (userProduct) => {
   try {
-    const storedUser = await userService.getById(userProduct.userId);
-    const storedProduct = await productService.getById(userProduct.productId);
+    let storedUser = userService.getById(userProduct.userId);
+    let storedProduct = productService.getById(userProduct.productId);
+    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+
+    [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
 
     if (!storedUser) {
       throw ResponseError.of("Can't save, this user does not exist", StatusCode.BAD_REQUEST);
@@ -61,7 +82,63 @@ exports.save = async (userProduct) => {
       throw ResponseError.of("Can't save, this product does not exist", StatusCode.BAD_REQUEST);
     }
 
+    if (storedUserProduct) {
+      throw ResponseError.of("Can't save, this is already exist", StatusCode.BAD_REQUEST);
+    }
+
     await userProductsRepository.save(userProduct);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.update = async (userProduct) => {
+  try {
+    let storedUser = userService.getById(userProduct.userId);
+    let storedProduct = productService.getById(userProduct.productId);
+    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+
+    [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
+
+    if (!storedUser) {
+      throw ResponseError.of("Can't update, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    if (!storedProduct) {
+      throw ResponseError.of("Can't update, this product does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    if (!storedUserProduct) {
+      throw ResponseError.of("Can't update, this does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    await userProductsRepository.update(userProduct);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.delete = async (userProduct) => {
+  try {
+    let storedUser = userService.getById(userProduct.userId);
+    let storedProduct = productService.getById(userProduct.productId);
+    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+
+    [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
+
+    if (!storedUser) {
+      throw ResponseError.of("Can't delete, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    if (!storedProduct) {
+      throw ResponseError.of("Can't delete, this product does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    if (!storedUserProduct) {
+      throw ResponseError.of("Can't delete, this does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    await userProductsRepository.delete(userProduct);
   } catch (error) {
     throw ResponseError.from(error);
   }
