@@ -45,13 +45,15 @@ exports.getInfo = async (cart) => {
     const info = await Promise.all(
       cartProducts.map(async (cartProduct) => {
         let product = productService.getById(cartProduct.productId);
-        let user = userService.getById(cartProduct.userId);
+        let seller = userService.getById(cartProduct.userId);
+        let customer = this.getUser(cartProduct.cartId);
         let userProduct = userProductsService.search({ userId: cartProduct.userId, productId: cartProduct.productId });
 
-        [product, user, userProduct] = await Promise.all([product, user, userProduct]);
+        [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 
         return {
-          user: `${user.firstName} ${user.lastName}`,
+          customer: `${customer.firstName} ${customer.lastName}`,
+          seller: `${seller.firstName} ${seller.lastName}`,
           product: product.name,
           price: userProduct.price,
           quantity: cartProduct.quantity,
