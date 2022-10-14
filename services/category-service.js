@@ -20,9 +20,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCritreia) => {
+exports.search = async (searchCriteria) => {
   try {
-    const category = await categoryRepository.search(searchCritreia);
+    const category = await categoryRepository.search(searchCriteria);
     return category;
   } catch (error) {
     throw ResponseError.from(error);

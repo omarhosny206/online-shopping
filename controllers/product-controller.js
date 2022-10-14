@@ -22,8 +22,8 @@ exports.getById = async (req, res, next) => {
 
 exports.search = async (req, res, next) => {
   try {
-    const searchCritreia = req.query;
-    const products = await productService.search(searchCritreia);
+    const searchCriteria = req.query;
+    const products = await productService.search(searchCriteria);
     return res.status(StatusCode.OK).json(products);
   } catch (error) {
     return next(error);

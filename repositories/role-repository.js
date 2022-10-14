@@ -13,9 +13,9 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCritreia) => {
+exports.search = async (searchCriteria) => {
   try {
-    const predicate = { where: { ...searchCritreia } };
+    const predicate = { where: { ...searchCriteria } };
     const role = await Role.findOne(predicate);
     return role;
   } catch (error) {

@@ -21,9 +21,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCritreia) => {
+exports.search = async (searchCriteria) => {
   try {
-    const products = await productRepository.search(searchCritreia);
+    const products = await productRepository.search(searchCriteria);
     return products;
   } catch (error) {
     throw ResponseError.from(error);

@@ -1,6 +1,5 @@
 const cartRepository = require("../repositories/cart-repository");
 const userService = require("../services/user-service");
-const cartProductsService = require("../services/cart-products-service");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
 
