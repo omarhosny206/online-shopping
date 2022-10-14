@@ -8,9 +8,7 @@ router.use(authorization.authorizeToken);
 router.use(authorization.authorizeRole([Roles.CUSTOMER]));
 
 router.get("/", orderController.getByUserId);
-router.get("/info", orderController.getInfo);
-
-//router.delete("/clear", orderController.clear);
+router.get("/info/:id", orderController.getInfo);
 
 router.post("/", orderController.save);
 

@@ -22,8 +22,8 @@ exports.getUser = async (req, res, next) => {
 exports.getByUserId = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const order = await orderService.getByUserId(userId);
-    return res.status(StatusCode.OK).json(order);
+    const orders = await orderService.getByUserId(userId);
+    return res.status(StatusCode.OK).json(orders);
   } catch (error) {
     return next(error);
   }
@@ -32,7 +32,9 @@ exports.getByUserId = async (req, res, next) => {
 exports.getInfo = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    order = { userId: userId };
+    const id = parseInt(req.params.id);
+    const order = { id: id, userId: userId };
+    console.log(order);
     const info = await orderService.getInfo(order);
     return res.status(StatusCode.OK).json(info);
   } catch (error) {

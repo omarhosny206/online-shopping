@@ -25,7 +25,16 @@ exports.getUser = async (id) => {
 
 exports.getByUserId = async (userId) => {
   try {
-    const order = await orderRepository.getByUserId(userId);
+    const orders = await orderRepository.getByUserId(userId);
+    return orders;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.searchOne = async (searchCriteria) => {
+  try {
+    const order = await orderRepository.searchOne(searchCriteria);
     return order;
   } catch (error) {
     throw ResponseError.from(error);
@@ -34,6 +43,12 @@ exports.getByUserId = async (userId) => {
 
 exports.getInfo = async (order) => {
   try {
+    const storedOrder = await this.searchOne({ id: order.id, userId: order.userId });
+
+    if (!storedOrder) {
+      throw ResponseError.of("Can't get info, this order does not exist", StatusCode.BAD_REQUEST);
+    }
+
     const info = await orderRepository.getInfo(order);
     return info;
   } catch (error) {
