@@ -7,11 +7,7 @@ const Roles = require("../utils/roles");
 router.use(authorization.authorizeToken);
 router.use(authorization.authorizeRole([Roles.CUSTOMER]));
 
-router.get("/", cartController.getByUserId);
 router.get("/info", cartController.getInfo);
-
-router.post("/", cartController.save);
-
 router.delete("/clear", cartController.clear);
 
 module.exports = router;
