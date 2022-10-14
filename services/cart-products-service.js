@@ -101,3 +101,17 @@ exports.delete = async (cartProduct) => {
     throw ResponseError.from(error);
   }
 };
+
+exports.clear = async (cartId) => {
+  try {
+    const storedCartProducts = await this.search({ cartId: cartId });
+
+    if (!storedCartProducts.length) {
+      throw ResponseError.of("Can't clear this cart, it is already empty", StatusCode.BAD_REQUEST);
+    }
+
+    await cartProductsRepository.clear(cartId);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};

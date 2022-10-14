@@ -12,4 +12,6 @@ router.get("/info", cartController.getInfo);
 
 router.post("/", cartController.save);
 
+router.delete("/clear", cartController.clear);
+
 module.exports = router;

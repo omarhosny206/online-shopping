@@ -76,3 +76,12 @@ exports.delete = async (cartProduct) => {
     throw ResponseError.from(error);
   }
 };
+
+exports.clear = async (cartId) => {
+  try {
+    const predicate = { where: { cartId: cartId } };
+    await CartProducts.destroy(predicate);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};

@@ -75,3 +75,11 @@ exports.save = async (userId) => {
     throw ResponseError.from(error);
   }
 };
+
+exports.clear = async (cart) => {
+  try {
+    await cartProductsService.clear(cart.id);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};

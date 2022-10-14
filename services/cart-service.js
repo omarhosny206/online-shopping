@@ -1,5 +1,6 @@
 const cartRepository = require("../repositories/cart-repository");
 const userService = require("../services/user-service");
+const cartProductsService = require("../services/cart-products-service");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
 
@@ -62,6 +63,21 @@ exports.save = async (userId) => {
     }
 
     await cartRepository.save(userId);
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
+exports.clear = async (cart) => {
+  try {
+    const storedCart = await this.getByUserId(cart.userId);
+
+    if (!storedCart) {
+      throw ResponseError.of("Can't clear the cart, this user does not exist", StatusCode.BAD_REQUEST);
+    }
+
+    cart.id = storedCart.id;
+    await cartRepository.clear(cart);
   } catch (error) {
     throw ResponseError.from(error);
   }
