@@ -34,8 +34,8 @@ exports.searchOne = async (searchAllCriteria) => {
 
 exports.save = async (cartProduct) => {
   try {
-    const savedCartProduct = await CartProducts.create(cartProduct);
-    return savedCartProduct;
+    const storedCartProduct = await CartProducts.create(cartProduct);
+    return storedCartProduct;
   } catch (error) {
     throw ResponseError.from(error);
   }

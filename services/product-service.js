@@ -21,10 +21,10 @@ exports.getById = async (id) => {
   }
 };
 
-exports.searchAll = async (searchAllCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const products = await productRepository.searchAll(searchAllCriteria);
-    return products;
+    const product = await productRepository.searchOne(searchAllCriteria);
+    return product;
   } catch (error) {
     throw ResponseError.from(error);
   }
@@ -47,7 +47,7 @@ exports.save = async (product) => {
       throw ResponseError.of("Can't save, this category does not exist", StatusCode.BAD_REQUEST);
     }
 
-    const storedProduct = await this.searchAll({ name: product.name });
+    const storedProduct = await this.searchOne({ name: product.name });
 
     if (storedProduct) {
       throw ResponseError.of("Can't save, this product is already exist", StatusCode.BAD_REQUEST);

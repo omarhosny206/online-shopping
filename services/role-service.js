@@ -20,9 +20,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.searchAll = async (searchAllCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const role = await roleRepository.searchAll(searchAllCriteria);
+    const role = await roleRepository.searchOne(searchAllCriteria);
     return role;
   } catch (error) {
     throw ResponseError.from(error);

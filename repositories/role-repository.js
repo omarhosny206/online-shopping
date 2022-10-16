@@ -13,7 +13,7 @@ exports.getAll = async () => {
   }
 };
 
-exports.searchAll = async (searchAllCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
     const predicate = { where: { ...searchAllCriteria } };
     const role = await Role.findOne(predicate);
@@ -50,8 +50,8 @@ exports.getUsers = async (name) => {
 
 exports.save = async (role) => {
   try {
-    const savedRole = await Role.create(role);
-    return savedRole;
+    const storedRole = await Role.create(role);
+    return storedRole;
   } catch (error) {
     throw ResponseError.from(error);
   }

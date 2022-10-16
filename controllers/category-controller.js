@@ -20,6 +20,16 @@ exports.getById = async (req, res, next) => {
   }
 };
 
+exports.getProducts = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const products = await categoryService.getProducts(id);
+    return res.status(StatusCode.OK).json(products);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 exports.searchOne = async (req, res, next) => {
   try {
     const searchAllCriteria = req.query;

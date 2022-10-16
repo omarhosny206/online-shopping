@@ -48,8 +48,8 @@ exports.getRole = async (id) => {
 
 exports.save = async (user) => {
   try {
-    const savedUser = await userRepository.save(user);
-    return savedUser;
+    const storedUser = await userRepository.save(user);
+    return storedUser;
   } catch (error) {
     throw ResponseError.from(error);
   }

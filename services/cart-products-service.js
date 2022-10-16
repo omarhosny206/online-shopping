@@ -6,8 +6,8 @@ const StatusCode = require("../utils/status-code");
 
 exports.getAll = async () => {
   try {
-    const cartProductsRepository = await cartProductsRepository.getAll();
-    return cartProductsRepository;
+    const cartProducts = await cartProductsRepository.getAll();
+    return cartProducts;
   } catch (error) {
     throw ResponseError.from(error);
   }

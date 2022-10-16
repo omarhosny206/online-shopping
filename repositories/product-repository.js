@@ -22,11 +22,11 @@ exports.getById = async (id) => {
   }
 };
 
-exports.searchAll = async (searchAllCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
     const predicate = { where: { ...searchAllCriteria } };
-    const products = await Product.findOne(predicate);
-    return products;
+    const product = await Product.findOne(predicate);
+    return product;
   } catch (error) {
     throw ResponseError.from(error);
   }
@@ -45,8 +45,8 @@ exports.getCategory = async (id) => {
 
 exports.save = async (product) => {
   try {
-    const savedProduct = await Product.create(product);
-    return savedProduct;
+    const storedProduct = await Product.create(product);
+    return storedProduct;
   } catch (error) {
     throw ResponseError.from(error);
   }

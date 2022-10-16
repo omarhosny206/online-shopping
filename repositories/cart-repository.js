@@ -21,6 +21,11 @@ exports.getById = async (id) => {
 exports.getUser = async (id) => {
   try {
     const cart = await Cart.findByPk(id, { include: [User], raw: false });
+
+    if (!cart) {
+      return null;
+    }
+
     const user = cart.user;
     return user;
   } catch (error) {
@@ -71,8 +76,8 @@ exports.getInfo = async (cart) => {
 exports.save = async (userId) => {
   try {
     const cart = { userId: userId };
-    const savedCart = await Cart.create(cart);
-    return savedCart;
+    const storedCart = await Cart.create(cart);
+    return storedCart;
   } catch (error) {
     throw ResponseError.from(error);
   }

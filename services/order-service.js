@@ -5,6 +5,15 @@ const orderProductsService = require("../services/order-products-service");
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
 
+exports.getByUserId = async (userId) => {
+  try {
+    const orders = await orderRepository.getByUserId(userId);
+    return orders;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.getById = async (id) => {
   try {
     const order = await orderRepository.getById(id);
@@ -18,15 +27,6 @@ exports.getUser = async (id) => {
   try {
     const user = await orderRepository.getUser(id);
     return user;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
-exports.getByUserId = async (userId) => {
-  try {
-    const orders = await orderRepository.getByUserId(userId);
-    return orders;
   } catch (error) {
     throw ResponseError.from(error);
   }

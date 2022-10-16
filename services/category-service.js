@@ -20,6 +20,15 @@ exports.getById = async (id) => {
   }
 };
 
+exports.getProducts = async (id) => {
+  try {
+    const products = await categoryRepository.getProducts(id);
+    return products;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.searchAll = async (searchAllCriteria) => {
   try {
     const category = await categoryRepository.searchOne(searchAllCriteria);

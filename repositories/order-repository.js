@@ -8,6 +8,16 @@ const ResponseError = require("../utils/response-error");
 const Order = tables.order;
 const User = tables.user;
 
+exports.getByUserId = async (userId) => {
+  try {
+    const predicate = { where: { userId: userId } };
+    const orders = await Order.findAll(predicate);
+    return orders;
+  } catch (error) {
+    throw ResponseError.from(error);
+  }
+};
+
 exports.getById = async (id) => {
   try {
     const order = await Order.findByPk(id);
@@ -20,18 +30,13 @@ exports.getById = async (id) => {
 exports.getUser = async (id) => {
   try {
     const order = await Order.findByPk(id, { include: [User], raw: false });
+
+    if (!order) {
+      return null;
+    }
+
     const user = order.user;
     return user;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
-exports.getByUserId = async (userId) => {
-  try {
-    const predicate = { where: { userId: userId } };
-    const orders = await Order.findAll(predicate);
-    return orders;
   } catch (error) {
     throw ResponseError.from(error);
   }
@@ -81,8 +86,8 @@ exports.save = async (userId) => {
   try {
     const order = { userId: userId };
     const result = await Order.create(order);
-    const savedOrder = result.dataValues;
-    return savedOrder;
+    const storedOrder = result.dataValues;
+    return storedOrder;
   } catch (error) {
     throw ResponseError.from(error);
   }

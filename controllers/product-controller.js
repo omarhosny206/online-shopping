@@ -23,8 +23,8 @@ exports.getById = async (req, res, next) => {
 exports.searchAll = async (req, res, next) => {
   try {
     const searchAllCriteria = req.query;
-    const products = await productService.searchAll(searchAllCriteria);
-    return res.status(StatusCode.OK).json(products);
+    const product = await productService.searchOne(searchAllCriteria);
+    return res.status(StatusCode.OK).json(product);
   } catch (error) {
     return next(error);
   }

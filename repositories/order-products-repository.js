@@ -25,8 +25,8 @@ exports.searchOne = async (searchAllCriteria) => {
 
 exports.save = async (orderProduct) => {
   try {
-    const savedOrderProduct = await OrderProducts.create(orderProduct);
-    return savedOrderProduct;
+    const storedOrderProduct = await OrderProducts.create(orderProduct);
+    return storedOrderProduct;
   } catch (error) {
     throw ResponseError.from(error);
   }

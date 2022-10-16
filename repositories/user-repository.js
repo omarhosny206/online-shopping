@@ -59,8 +59,8 @@ exports.getRole = async (id) => {
 
 exports.save = async (user) => {
   try {
-    const savedUser = await User.create(user);
-    return savedUser;
+    const storedUser = await User.create(user);
+    return storedUser;
   } catch (error) {
     throw ResponseError.from(error);
   }

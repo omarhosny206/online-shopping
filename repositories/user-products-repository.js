@@ -45,8 +45,8 @@ exports.getProductsById = async (id) => {
 
 exports.save = async (userProduct) => {
   try {
-    const savedUserProduct = await UserProducts.create(userProduct);
-    return savedUserProduct;
+    const storedUserProduct = await UserProducts.create(userProduct);
+    return storedUserProduct;
   } catch (error) {
     throw ResponseError.from(error);
   }
