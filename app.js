@@ -23,6 +23,7 @@ const association = require("./config/association-config");
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
+
 app.use("/signup", signupRoute);
 app.use("/login", loginRoute);
 app.use("/users", userRoute);
