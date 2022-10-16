@@ -32,24 +32,6 @@ exports.searchOne = async (searchAllCriteria) => {
   }
 };
 
-exports.getProductsById = async (id) => {
-  try {
-    const predicate = { where: { userId: id } };
-    const userProducts = await UserProducts.findAll(predicate);
-
-    const products = await Promise.all(
-      userProducts.map(async (userProduct) => {
-        const product = await productService.getById(userProduct.productId);
-        return { product: product.name, price: userProduct.price };
-      })
-    );
-
-    return products;
-  } catch (error) {
-    throw ResponseError.from(error);
-  }
-};
-
 exports.save = async (cartProduct) => {
   try {
     const savedCartProduct = await CartProducts.create(cartProduct);
