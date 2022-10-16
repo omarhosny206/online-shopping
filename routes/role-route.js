@@ -10,7 +10,7 @@ router.use(authorization.authorizeToken);
 router.use(authorization.authorizeRole([Roles.ADMIN]));
 
 router.get("/", roleController.getAll);
-router.get("/search", roleController.search);
+router.get("/searchAll", roleController.searchAll);
 router.get("/:id", roleController.getById);
 router.get("/:name/users", roleController.getUsers);
 

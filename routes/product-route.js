@@ -10,7 +10,7 @@ const Roles = require("../utils/roles");
 router.use(authorization.authorizeToken);
 
 router.get("/", authorization.authorizeRole([Roles.ADMIN]), productController.getAll);
-router.get("/search", authorization.authorizeRole(Roles.ALL), productController.search);
+router.get("/searchAll", authorization.authorizeRole(Roles.ALL), productController.searchAll);
 router.get("/:id", authorization.authorizeRole([Roles.ADMIN, Roles.SELLER]), productController.getById);
 router.get("/:id/categories", productController.getCategory);
 

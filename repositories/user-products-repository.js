@@ -15,9 +15,9 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const userProduct = await UserProducts.findOne(predicate);
     return userProduct;
   } catch (error) {

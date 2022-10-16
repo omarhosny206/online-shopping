@@ -32,9 +32,9 @@ exports.getByEmail = async (email) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const users = await User.findAll(predicate);
     return users;
   } catch (error) {

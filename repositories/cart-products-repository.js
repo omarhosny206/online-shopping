@@ -12,9 +12,9 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const cartProducts = await CartProducts.findAll(predicate);
     return cartProducts;
   } catch (error) {
@@ -22,9 +22,9 @@ exports.search = async (searchCriteria) => {
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const cartProduct = await CartProducts.findOne(predicate);
     return cartProduct;
   } catch (error) {

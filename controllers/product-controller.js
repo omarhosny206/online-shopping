@@ -20,10 +20,10 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.search = async (req, res, next) => {
+exports.searchAll = async (req, res, next) => {
   try {
-    const searchCriteria = req.query;
-    const products = await productService.search(searchCriteria);
+    const searchAllCriteria = req.query;
+    const products = await productService.searchAll(searchAllCriteria);
     return res.status(StatusCode.OK).json(products);
   } catch (error) {
     return next(error);

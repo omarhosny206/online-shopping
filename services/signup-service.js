@@ -10,7 +10,7 @@ exports.signup = async (user) => {
   try {
     const { email, password, roleName } = user;
     const storedUser = await userService.getByEmail(email);
-    const storedRole = await roleService.search({ name: roleName });
+    const storedRole = await roleService.searchAll({ name: roleName });
 
     if (storedUser) {
       throw ResponseError.of("This email is already taken, choose another one", StatusCode.BAD_REQUEST);

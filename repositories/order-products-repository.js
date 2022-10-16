@@ -3,9 +3,9 @@ const ResponseError = require("../utils/response-error");
 
 const OrderProducts = tables.orderProducts;
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const orderProducts = await OrderProducts.findAll(predicate);
     return orderProducts;
   } catch (error) {
@@ -13,9 +13,9 @@ exports.search = async (searchCriteria) => {
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const orderProducts = await OrderProducts.findOne(predicate);
     return orderProducts;
   } catch (error) {

@@ -22,9 +22,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const products = await Product.findOne(predicate);
     return products;
   } catch (error) {

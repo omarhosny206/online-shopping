@@ -13,9 +13,9 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const userProduct = await userProductsRepository.search(searchCriteria);
+    const userProduct = await userProductsRepository.searchAll(searchAllCriteria);
     return userProduct;
   } catch (error) {
     throw ResponseError.from(error);
@@ -35,7 +35,7 @@ exports.save = async (userProduct) => {
   try {
     let storedUser = userService.getById(userProduct.userId);
     let storedProduct = productService.getById(userProduct.productId);
-    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+    let storedUserProduct = this.searchAll({ userId: userProduct.userId, productId: userProduct.productId });
 
     [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
 
@@ -61,7 +61,7 @@ exports.update = async (userProduct) => {
   try {
     let storedUser = userService.getById(userProduct.userId);
     let storedProduct = productService.getById(userProduct.productId);
-    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+    let storedUserProduct = this.searchAll({ userId: userProduct.userId, productId: userProduct.productId });
 
     [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
 
@@ -87,7 +87,7 @@ exports.delete = async (userProduct) => {
   try {
     let storedUser = userService.getById(userProduct.userId);
     let storedProduct = productService.getById(userProduct.productId);
-    let storedUserProduct = this.search({ userId: userProduct.userId, productId: userProduct.productId });
+    let storedUserProduct = this.searchAll({ userId: userProduct.userId, productId: userProduct.productId });
 
     [storedUser, storedProduct, storedUserProduct] = await Promise.all([storedUser, storedProduct, storedUserProduct]);
 

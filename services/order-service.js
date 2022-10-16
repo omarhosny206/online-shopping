@@ -32,9 +32,9 @@ exports.getByUserId = async (userId) => {
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const order = await orderRepository.searchOne(searchCriteria);
+    const order = await orderRepository.searchOne(searchAllCriteria);
     return order;
   } catch (error) {
     throw ResponseError.from(error);
@@ -64,7 +64,7 @@ exports.save = async (userId) => {
       throw ResponseError.of("Can't save, this user does not exist", StatusCode.BAD_REQUEST);
     }
 
-    const storedCartProducts = await cartProductsService.search({ cartId: storedCart.id });
+    const storedCartProducts = await cartProductsService.searchAll({ cartId: storedCart.id });
 
     if (!storedCartProducts.length) {
       throw ResponseError.of("Can't save, the cart is empty", StatusCode.BAD_REQUEST);

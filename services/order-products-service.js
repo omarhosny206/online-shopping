@@ -2,18 +2,18 @@ const orderProductsRepository = require("../repositories/order-products-reposito
 const ResponseError = require("../utils/response-error");
 const StatusCode = require("../utils/status-code");
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const orderProducts = await orderProductsRepository.search(searchCriteria);
+    const orderProducts = await orderProductsRepository.searchAll(searchAllCriteria);
     return orderProducts;
   } catch (error) {
     throw ResponseError.from(error);
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const orderProduct = await orderProductsRepository.searchOne(searchCriteria);
+    const orderProduct = await orderProductsRepository.searchOne(searchAllCriteria);
     return orderProduct;
   } catch (error) {
     throw ResponseError.from(error);

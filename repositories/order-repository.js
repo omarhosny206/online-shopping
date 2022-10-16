@@ -37,9 +37,9 @@ exports.getByUserId = async (userId) => {
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const order = await Order.findOne(predicate);
     return order;
   } catch (error) {
@@ -49,14 +49,14 @@ exports.searchOne = async (searchCriteria) => {
 
 exports.getInfo = async (order) => {
   try {
-    const orderProducts = await orderProductsService.search({ orderId: order.id });
+    const orderProducts = await orderProductsService.searchAll({ orderId: order.id });
 
     const info = await Promise.all(
       orderProducts.map(async (orderProduct) => {
         let product = productService.getById(orderProduct.productId);
         let seller = userService.getById(orderProduct.userId);
         let customer = this.getUser(orderProduct.orderId);
-        let userProduct = userProductsService.search({ userId: orderProduct.userId, productId: orderProduct.productId });
+        let userProduct = userProductsService.searchAll({ userId: orderProduct.userId, productId: orderProduct.productId });
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 

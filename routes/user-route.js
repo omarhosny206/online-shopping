@@ -7,7 +7,7 @@ const Roles = require("../utils/roles");
 router.use(authorization.authorizeToken);
 
 router.get("/", authorization.authorizeRole([Roles.ADMIN]), userController.getAll);
-router.get("/search", authorization.authorizeRole(Roles.ALL), userController.search);
+router.get("/searchAll", authorization.authorizeRole(Roles.ALL), userController.searchAll);
 router.get("/:id", authorization.authorizeRole([Roles.ADMIN]), userController.getById);
 router.get("/:id/roles", authorization.authorizeRole([Roles.ADMIN]), userController.getRole);
 module.exports = router;

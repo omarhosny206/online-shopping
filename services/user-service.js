@@ -28,9 +28,9 @@ exports.getByEmail = async (email) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const users = await userRepository.search(searchCriteria);
+    const users = await userRepository.searchAll(searchAllCriteria);
     return users;
   } catch (error) {
     throw ResponseError.from(error);

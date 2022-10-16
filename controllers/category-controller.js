@@ -20,10 +20,10 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.search = async (req, res, next) => {
+exports.searchOne = async (req, res, next) => {
   try {
-    const searchCriteria = req.query;
-    const category = await categoryService.search(searchCriteria);
+    const searchAllCriteria = req.query;
+    const category = await categoryService.searchOne(searchAllCriteria);
     return res.status(StatusCode.OK).json(category);
   } catch (error) {
     return next(error);

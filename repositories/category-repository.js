@@ -21,9 +21,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const predicate = { where: { ...searchCriteria } };
+    const predicate = { where: { ...searchAllCriteria } };
     const category = await Category.findOne(predicate);
     return category;
   } catch (error) {

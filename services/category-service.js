@@ -20,9 +20,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const category = await categoryRepository.search(searchCriteria);
+    const category = await categoryRepository.searchOne(searchAllCriteria);
     return category;
   } catch (error) {
     throw ResponseError.from(error);
@@ -31,7 +31,7 @@ exports.search = async (searchCriteria) => {
 
 exports.save = async (category) => {
   try {
-    const storedCategory = await this.search({ name: category.name });
+    const storedCategory = await this.searchAll({ name: category.name });
 
     if (storedCategory) {
       throw ResponseError.of("Can't save, this category is already exist", StatusCode.BAD_REQUEST);

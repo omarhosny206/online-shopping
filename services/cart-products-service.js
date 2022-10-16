@@ -13,18 +13,18 @@ exports.getAll = async () => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const cartProducts = await cartProductsRepository.search(searchCriteria);
+    const cartProducts = await cartProductsRepository.searchAll(searchAllCriteria);
     return cartProducts;
   } catch (error) {
     throw ResponseError.from(error);
   }
 };
 
-exports.searchOne = async (searchCriteria) => {
+exports.searchOne = async (searchAllCriteria) => {
   try {
-    const cartProduct = await cartProductsRepository.searchOne(searchCriteria);
+    const cartProduct = await cartProductsRepository.searchOne(searchAllCriteria);
     return cartProduct;
   } catch (error) {
     throw ResponseError.from(error);
@@ -34,7 +34,7 @@ exports.searchOne = async (searchCriteria) => {
 exports.save = async (cartProduct) => {
   try {
     let storedCart = cartService.getByUserId(cartProduct.customerId);
-    let storedUserProducts = userProductsService.search({ userId: cartProduct.userId, productId: cartProduct.productId });
+    let storedUserProducts = userProductsService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
 
     [storedCart, storedUserProducts] = await Promise.all([storedCart, storedUserProducts]);
 
@@ -104,7 +104,7 @@ exports.delete = async (cartProduct) => {
 
 exports.clear = async (cartId) => {
   try {
-    const storedCartProducts = await this.search({ cartId: cartId });
+    const storedCartProducts = await this.searchAll({ cartId: cartId });
 
     if (!storedCartProducts.length) {
       throw ResponseError.of("Can't clear this cart, it is already empty", StatusCode.BAD_REQUEST);

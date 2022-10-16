@@ -40,14 +40,14 @@ exports.getByUserId = async (userId) => {
 
 exports.getInfo = async (cart) => {
   try {
-    const cartProducts = await cartProductsService.search({ cartId: cart.id });
+    const cartProducts = await cartProductsService.searchAll({ cartId: cart.id });
 
     const info = await Promise.all(
       cartProducts.map(async (cartProduct) => {
         let product = productService.getById(cartProduct.productId);
         let seller = userService.getById(cartProduct.userId);
         let customer = this.getUser(cartProduct.cartId);
-        let userProduct = userProductsService.search({ userId: cartProduct.userId, productId: cartProduct.productId });
+        let userProduct = userProductsService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 

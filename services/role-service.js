@@ -20,9 +20,9 @@ exports.getById = async (id) => {
   }
 };
 
-exports.search = async (searchCriteria) => {
+exports.searchAll = async (searchAllCriteria) => {
   try {
-    const role = await roleRepository.search(searchCriteria);
+    const role = await roleRepository.searchAll(searchAllCriteria);
     return role;
   } catch (error) {
     throw ResponseError.from(error);
@@ -40,7 +40,7 @@ exports.getUsers = async (name) => {
 
 exports.save = async (role) => {
   try {
-    const storedRole = await this.search({ name: role.name });
+    const storedRole = await this.searchAll({ name: role.name });
 
     if (storedRole) {
       throw ResponseError.of("Can't save, this role is already exist", StatusCode.BAD_REQUEST);
