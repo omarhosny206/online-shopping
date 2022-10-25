@@ -1,7 +1,6 @@
-require("dotenv").config();
-
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
 
 const userRoute = require("./routes/user-route");
 const productRoute = require("./routes/product-route");
@@ -21,6 +20,8 @@ const sequelize = require("./config/sequelize-config");
 const association = require("./config/association-config");
 
 const PORT = process.env.PORT || 8080;
+
+dotenv.config();
 
 app.use(express.json());
 

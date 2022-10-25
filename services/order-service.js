@@ -84,7 +84,9 @@ exports.save = async (userId) => {
       })
     );
 
+    const info = await this.getInfo(storedOrder);
     await cartService.clear(storedCart);
+    await paymentService.pay(info);
   } catch (error) {
     throw ResponseError.from(error);
   }

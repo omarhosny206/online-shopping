@@ -46,8 +46,9 @@ exports.getByUserId = async (userId) => {
 exports.getInfo = async (cart) => {
   try {
     const cartProducts = await cartProductsService.searchAll({ cartId: cart.id });
+    let price = 0;
 
-    const info = await Promise.all(
+    const details = await Promise.all(
       cartProducts.map(async (cartProduct) => {
         let product = productService.getById(cartProduct.productId);
         let seller = userService.getById(cartProduct.userId);
@@ -56,17 +57,20 @@ exports.getInfo = async (cart) => {
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 
+        price += userProduct.price * cartProduct.quantity;
+
         return {
-          customer: `${customer.firstName} ${customer.lastName}`,
-          seller: `${seller.firstName} ${seller.lastName}`,
-          product: product.name,
-          price: userProduct.price,
+          customerName: `${customer.firstName} ${customer.lastName}`,
+          sellerName: `${seller.firstName} ${seller.lastName}`,
+          productName: product.name,
+          productPrice: userProduct.price,
           quantity: cartProduct.quantity,
           totalPrice: userProduct.price * cartProduct.quantity,
         };
       })
     );
 
+    const info = { price: price, details: details };
     return info;
   } catch (error) {
     throw ResponseError.from(error);

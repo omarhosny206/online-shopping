@@ -1,4 +1,5 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const jwt = require("jsonwebtoken");
 const StatusCode = require("./status-code");

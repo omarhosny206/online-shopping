@@ -55,8 +55,9 @@ exports.searchOne = async (searchAllCriteria) => {
 exports.getInfo = async (order) => {
   try {
     const orderProducts = await orderProductsService.searchAll({ orderId: order.id });
+    let price = 0;
 
-    const info = await Promise.all(
+    const details = await Promise.all(
       orderProducts.map(async (orderProduct) => {
         let product = productService.getById(orderProduct.productId);
         let seller = userService.getById(orderProduct.userId);
@@ -65,17 +66,20 @@ exports.getInfo = async (order) => {
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 
+        price += userProduct.price * orderProduct.quantity;
+
         return {
-          customer: `${customer.firstName} ${customer.lastName}`,
-          seller: `${seller.firstName} ${seller.lastName}`,
-          product: product.name,
-          price: userProduct.price,
+          customerName: `${customer.firstName} ${customer.lastName}`,
+          sellerName: `${seller.firstName} ${seller.lastName}`,
+          productName: product.name,
+          productPrice: userProduct.price,
           quantity: orderProduct.quantity,
           totalPrice: userProduct.price * orderProduct.quantity,
         };
       })
     );
 
+    const info = { price: price, details: details };
     return info;
   } catch (error) {
     throw ResponseError.from(error);
