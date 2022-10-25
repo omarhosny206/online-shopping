@@ -3,7 +3,7 @@ const productService = require("../services/product-service");
 const orderProductsService = require("../services/order-products-service");
 const userProductsService = require("../services/user-products-service");
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const Order = tables.order;
 const User = tables.user;
@@ -14,7 +14,7 @@ exports.getByUserId = async (userId) => {
     const orders = await Order.findAll(predicate);
     return orders;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -23,7 +23,7 @@ exports.getById = async (id) => {
     const order = await Order.findByPk(id);
     return order;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -38,7 +38,7 @@ exports.getUser = async (id) => {
     const user = order.user;
     return user;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -48,7 +48,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const order = await Order.findOne(predicate);
     return order;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -82,7 +82,7 @@ exports.getInfo = async (order) => {
     const info = { price: price, details: details };
     return info;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -93,6 +93,6 @@ exports.save = async (userId) => {
     const storedOrder = result.dataValues;
     return storedOrder;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

@@ -1,14 +1,13 @@
 const productRepository = require("../repositories/product-repository");
+const ApiError = require("../utils/api-error");
 const categoryService = require("./category-service");
-const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
 
 exports.getAll = async () => {
   try {
     const products = await productRepository.getAll();
     return products;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -17,7 +16,7 @@ exports.getById = async (id) => {
     const product = await productRepository.getById(id);
     return product;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -26,7 +25,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const product = await productRepository.searchOne(searchAllCriteria);
     return product;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -35,7 +34,7 @@ exports.getCategory = async (id) => {
     const category = await productRepository.getCategory(id);
     return category;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -44,19 +43,19 @@ exports.save = async (product) => {
     const category = await categoryService.searchAll({ name: product.categoryName });
 
     if (!category) {
-      throw ResponseError.of("Can't save, this category does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, this category does not exist");
     }
 
     const storedProduct = await this.searchOne({ name: product.name });
 
     if (storedProduct) {
-      throw ResponseError.of("Can't save, this product is already exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, this product is already exist");
     }
 
     product.categoryId = category.id;
     await productRepository.save(product);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -66,17 +65,17 @@ exports.update = async (product) => {
     const storedCategory = await categoryService.searchAll({ name: product.categoryName });
 
     if (!storedProduct) {
-      throw ResponseError.of("Can't update, this product does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't update, this product does not exist");
     }
 
     if (!storedCategory) {
-      throw ResponseError.of("Can't update, this category does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't update, this category does not exist");
     }
 
     product.categoryId = storedCategory.id;
     await productRepository.update(product);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -85,11 +84,11 @@ exports.delete = async (id) => {
     const storedProduct = await this.getById(id);
 
     if (!storedProduct) {
-      throw ResponseError.of("Can't delete, this product does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't delete, this product does not exist");
     }
 
     await productRepository.delete(id);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

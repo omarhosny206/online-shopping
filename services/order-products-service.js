@@ -1,13 +1,12 @@
 const orderProductsRepository = require("../repositories/order-products-repository");
-const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
+const ApiError = require("../utils/api-error");
 
 exports.searchAll = async (searchAllCriteria) => {
   try {
     const orderProducts = await orderProductsRepository.searchAll(searchAllCriteria);
     return orderProducts;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -16,7 +15,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const orderProduct = await orderProductsRepository.searchOne(searchAllCriteria);
     return orderProduct;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -29,11 +28,11 @@ exports.save = async (orderProduct) => {
     });
 
     if (storedOrderProduct) {
-      throw ResponseError.of("Can't save, this product is already exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, this product is already exist");
     }
 
     await orderProductsRepository.save(orderProduct);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

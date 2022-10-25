@@ -4,7 +4,7 @@ const userService = require("../services/user-service");
 const userProductsService = require("../services/user-products-service");
 
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiErorr = require("../utils/api-error");
 
 const Cart = tables.cart;
 const User = tables.user;
@@ -14,7 +14,7 @@ exports.getById = async (id) => {
     const cart = await Cart.findByPk(id);
     return cart;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };
 
@@ -29,7 +29,7 @@ exports.getUser = async (id) => {
     const user = cart.user;
     return user;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };
 
@@ -39,7 +39,7 @@ exports.getByUserId = async (userId) => {
     const cart = await Cart.findOne(predicate);
     return cart;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };
 
@@ -73,7 +73,7 @@ exports.getInfo = async (cart) => {
     const info = { price: price, details: details };
     return info;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };
 
@@ -83,7 +83,7 @@ exports.save = async (userId) => {
     const storedCart = await Cart.create(cart);
     return storedCart;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };
 
@@ -91,6 +91,6 @@ exports.clear = async (cart) => {
   try {
     await cartProductsService.clear(cart.id);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiErorr.from(error);
   }
 };

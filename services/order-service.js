@@ -2,15 +2,14 @@ const orderRepository = require("../repositories/order-repository");
 const cartService = require("../services/cart-service");
 const cartProductsService = require("../services/cart-products-service");
 const orderProductsService = require("../services/order-products-service");
-const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
+const ApiError = require("../utils/api-error");
 
 exports.getByUserId = async (userId) => {
   try {
     const orders = await orderRepository.getByUserId(userId);
     return orders;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -19,7 +18,7 @@ exports.getById = async (id) => {
     const order = await orderRepository.getById(id);
     return order;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -28,7 +27,7 @@ exports.getUser = async (id) => {
     const user = await orderRepository.getUser(id);
     return user;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -37,7 +36,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const order = await orderRepository.searchOne(searchAllCriteria);
     return order;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -46,13 +45,13 @@ exports.getInfo = async (order) => {
     const storedOrder = await this.searchOne({ id: order.id, userId: order.userId });
 
     if (!storedOrder) {
-      throw ResponseError.of("Can't get info, this order does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't get info, this order does not exist");
     }
 
     const info = await orderRepository.getInfo(order);
     return info;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -61,13 +60,13 @@ exports.save = async (userId) => {
     const storedCart = await cartService.getByUserId(userId);
 
     if (!storedCart) {
-      throw ResponseError.of("Can't save, this user does not exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, this user does not exist");
     }
 
     const storedCartProducts = await cartProductsService.searchAll({ cartId: storedCart.id });
 
     if (!storedCartProducts.length) {
-      throw ResponseError.of("Can't save, the cart is empty", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, the cart is empty");
     }
 
     const storedOrder = await orderRepository.save(userId);
@@ -84,10 +83,8 @@ exports.save = async (userId) => {
       })
     );
 
-    const info = await this.getInfo(storedOrder);
     await cartService.clear(storedCart);
-    await paymentService.pay(info);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

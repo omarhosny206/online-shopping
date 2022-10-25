@@ -1,5 +1,5 @@
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const CartProducts = tables.cartProducts;
 
@@ -8,7 +8,7 @@ exports.getAll = async () => {
     const cartProducts = await CartProducts.findAll();
     return cartProducts;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -18,7 +18,7 @@ exports.searchAll = async (searchAllCriteria) => {
     const cartProducts = await CartProducts.findAll(predicate);
     return cartProducts;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -28,7 +28,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const cartProduct = await CartProducts.findOne(predicate);
     return cartProduct;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -37,7 +37,7 @@ exports.save = async (cartProduct) => {
     const storedCartProduct = await CartProducts.create(cartProduct);
     return storedCartProduct;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -46,7 +46,7 @@ exports.update = async (cartProduct) => {
     const predicate = { where: { cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId } };
     await CartProducts.update(cartProduct, predicate);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -55,7 +55,7 @@ exports.delete = async (cartProduct) => {
     const predicate = { where: { cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId } };
     await CartProducts.destroy(predicate);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -64,6 +64,6 @@ exports.clear = async (cartId) => {
     const predicate = { where: { cartId: cartId } };
     await CartProducts.destroy(predicate);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

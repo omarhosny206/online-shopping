@@ -1,5 +1,5 @@
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const Product = tables.product;
 const Category = tables.category;
@@ -9,7 +9,7 @@ exports.getAll = async () => {
     const products = await Product.findAll();
     return products;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -18,7 +18,7 @@ exports.getById = async (id) => {
     const product = await Product.findByPk(id);
     return product;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -28,7 +28,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const product = await Product.findOne(predicate);
     return product;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -48,7 +48,7 @@ exports.save = async (product) => {
     const storedProduct = await Product.create(product);
     return storedProduct;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -57,7 +57,7 @@ exports.update = async (product) => {
     const predicate = { where: { id: product.id } };
     await Product.update(product, predicate);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -66,6 +66,6 @@ exports.delete = async (id) => {
     const predicate = { where: { id: id } };
     await Product.destroy(predicate);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

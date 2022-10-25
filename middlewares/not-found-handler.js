@@ -1,7 +1,6 @@
-const StatusCode = require("../utils/status-code");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 exports.handle = async (req, res, next) => {
   const { url } = req;
-  next(ResponseError.of(`not found: ${url}`, StatusCode.NOT_FOUND));
+  next(ApiError.notFound(`not found: ${url}`));
 };

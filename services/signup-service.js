@@ -1,10 +1,9 @@
 const userService = require("../services/user-service");
 const roleService = require("../services/role-service");
 const cartService = require("../services/cart-service");
-const bcrypt = require("bcrypt");
-const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
 const Roles = require("../utils/roles");
+const bcrypt = require("bcrypt");
+const ApiError = require("../utils/api-error");
 
 exports.signup = async (user) => {
   try {
@@ -13,11 +12,11 @@ exports.signup = async (user) => {
     const storedRole = await roleService.searchOne({ name: roleName });
 
     if (storedUser) {
-      throw ResponseError.of("This email is already taken, choose another one", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("This email is already taken, choose another one");
     }
 
     if (!storedRole) {
-      throw ResponseError.of("This role does not exist, choose from [admin, seller, customer]", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("This role does not exist, choose from [admin, seller, customer]");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,6 +29,6 @@ exports.signup = async (user) => {
       await cartService.save(savedUser.id);
     }
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

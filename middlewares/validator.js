@@ -1,5 +1,4 @@
-const StatusCode = require("../utils/status-code");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 exports.validate = (schema) => async (req, res, next) => {
   try {
@@ -8,6 +7,6 @@ exports.validate = (schema) => async (req, res, next) => {
     next();
   } catch (error) {
     const messages = error.details.map((errorDetails) => errorDetails.message);
-    next(ResponseError.of(messages, StatusCode.BAD_REQUEST));
+    next(ApiError.badRequest(messages));
   }
 };

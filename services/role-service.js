@@ -1,13 +1,12 @@
 const roleRepository = require("../repositories/role-repository");
-const ResponseError = require("../utils/response-error");
-const StatusCode = require("../utils/status-code");
+const ApiError = require("../utils/api-error");
 
 exports.getAll = async () => {
   try {
     const roles = await roleRepository.getAll();
     return roles;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -16,7 +15,7 @@ exports.getById = async (id) => {
     const role = await roleRepository.getById(id);
     return role;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -25,7 +24,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const role = await roleRepository.searchOne(searchAllCriteria);
     return role;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -34,7 +33,7 @@ exports.getUsers = async (name) => {
     const users = await roleRepository.getUsers(name);
     return users;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -43,11 +42,11 @@ exports.save = async (role) => {
     const storedRole = await this.searchAll({ name: role.name });
 
     if (storedRole) {
-      throw ResponseError.of("Can't save, this role is already exist", StatusCode.BAD_REQUEST);
+      throw ApiError.badRequest("Can't save, this role is already exist");
     }
 
     await roleRepository.save(role);
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

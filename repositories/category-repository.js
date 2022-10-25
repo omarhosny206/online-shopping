@@ -1,5 +1,5 @@
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const Category = tables.category;
 const Product = tables.product;
@@ -9,7 +9,7 @@ exports.getAll = async () => {
     const categories = await Category.findAll();
     return categories;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -18,7 +18,7 @@ exports.getById = async (id) => {
     const category = await Category.findByPk(id);
     return category;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -33,7 +33,7 @@ exports.getProducts = async (id) => {
     const products = category.products;
     return products;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -43,7 +43,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const category = await Category.findOne(predicate);
     return category;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -52,6 +52,6 @@ exports.save = async (category) => {
     const storedCategory = await Category.create(category);
     return storedCategory;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

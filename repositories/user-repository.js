@@ -1,5 +1,5 @@
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const Role = tables.role;
 const User = tables.user;
@@ -9,7 +9,7 @@ exports.getAll = async () => {
     const users = await User.findAll();
     return users;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -18,7 +18,7 @@ exports.getById = async (id) => {
     const user = await User.findByPk(id);
     return user;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -28,7 +28,7 @@ exports.getByEmail = async (email) => {
     const user = await User.findOne(predicate);
     return user;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -38,7 +38,7 @@ exports.searchAll = async (searchAllCriteria) => {
     const users = await User.findAll(predicate);
     return users;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -53,7 +53,7 @@ exports.getRole = async (id) => {
     const role = user.role.name;
     return role;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -62,6 +62,6 @@ exports.save = async (user) => {
     const storedUser = await User.create(user);
     return storedUser;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };

@@ -1,5 +1,5 @@
 const tables = require("../utils/tables");
-const ResponseError = require("../utils/response-error");
+const ApiError = require("../utils/api-error");
 
 const Role = tables.role;
 const User = tables.user;
@@ -9,7 +9,7 @@ exports.getAll = async () => {
     const roles = await Role.findAll();
     return roles;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -19,7 +19,7 @@ exports.searchOne = async (searchAllCriteria) => {
     const role = await Role.findOne(predicate);
     return role;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -28,7 +28,7 @@ exports.getById = async (id) => {
     const role = await Role.findByPk(id);
     return role;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -44,7 +44,7 @@ exports.getUsers = async (name) => {
     const users = role.users;
     return users;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -53,6 +53,6 @@ exports.save = async (role) => {
     const storedRole = await Role.create(role);
     return storedRole;
   } catch (error) {
-    throw ResponseError.from(error);
+    throw ApiError.from(error);
   }
 };
