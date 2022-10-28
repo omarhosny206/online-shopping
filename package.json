@@ -20,7 +20,6 @@
     "joi": "^17.6.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
-    "sequelize": "^6.23.2",
-    "stripe": "^10.14.0"
+    "sequelize": "^6.23.2"
   }
 }

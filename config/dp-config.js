@@ -1,8 +1,12 @@
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 const dbConfig = {
-  host: "localhost",
-  user: "postgres",
-  password: "password",
-  db: "online_shopping",
+  host: process.env.POSTGRES_HOST || "localhost",
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  db: process.env.POSTGRES_DB,
   dialect: "postgres",
   query: { raw: true, plain: false, nest: true },
   pool: {

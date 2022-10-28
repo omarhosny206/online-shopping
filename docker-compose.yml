@@ -1,0 +1,33 @@
+version: "3"
+services:
+  express-app:
+    build: .
+    container_name: online-shopping-app-container
+    ports:
+      - 8080:8080
+    environment:
+      - PORT=8080
+      - JWT_SECRET_KEY=09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611
+      - JWT_EXPIRATION=24h
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=online_shopping
+      - POSTGRES_HOST=postgres
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    restart: always
+    container_name: postgres-container
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    ports:
+      - 5555:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: online_shopping
+      
+
+volumes:
+  postgres-db:
