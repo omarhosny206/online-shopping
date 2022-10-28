@@ -17,7 +17,7 @@ exports.generate = async (email) => {
 
 exports.verify = async (token) => {
   try {
-    const payload = await jwt.verify(token, secretKey);
+    const payload = await jwt.verify(token, SECRET_KEY);
     return payload;
   } catch (error) {
     throw ApiError.unauthorized(error.message);
