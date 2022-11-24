@@ -1,4 +1,4 @@
-const userProductRepository = require("../repositories/user-products-repository");
+const userProductRepository = require("../repositories/user-product-repository");
 const userService = require("../services/user-service");
 const productService = require("../services/product-service");
 const ApiError = require("../utils/api-error");

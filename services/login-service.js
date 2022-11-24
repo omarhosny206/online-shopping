@@ -13,9 +13,9 @@ exports.login = async (user) => {
     }
 
     const hashedPassword = storedUser.password;
-    const areEqual = await bcrypt.compare(password, hashedPassword);
+    const areEqualPasswords = await bcrypt.compare(password, hashedPassword);
 
-    if (!areEqual) {
+    if (!areEqualPasswords) {
       throw ApiError.badRequest("Invalid password");
     }
 

@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize-config");
 
-const CartProducts = sequelize.define(
-  "cart_products",
+const CartItem = sequelize.define(
+  "cart_item",
   {
     quantity: {
       type: Sequelize.INTEGER,
@@ -18,5 +18,5 @@ const CartProducts = sequelize.define(
   }
 );
 
-CartProducts.removeAttribute("id");
-module.exports = CartProducts;
+CartItem.removeAttribute("id");
+module.exports = CartItem;

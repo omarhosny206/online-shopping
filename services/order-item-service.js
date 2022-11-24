@@ -1,4 +1,4 @@
-const orderItemRepository = require("../repositories/order-products-repository");
+const orderItemRepository = require("../repositories/order-item-repository");
 const ApiError = require("../utils/api-error");
 
 exports.searchAll = async (searchAllCriteria) => {
@@ -12,26 +12,26 @@ exports.searchAll = async (searchAllCriteria) => {
 
 exports.searchOne = async (searchAllCriteria) => {
   try {
-    const orderProduct = await orderItemRepository.searchOne(searchAllCriteria);
-    return orderProduct;
+    const orderItem = await orderItemRepository.searchOne(searchAllCriteria);
+    return orderItem;
   } catch (error) {
     throw ApiError.from(error);
   }
 };
 
-exports.save = async (orderProduct) => {
+exports.save = async (orderItem) => {
   try {
-    const storedOrderProduct = await this.searchOne({
-      orderId: orderProduct.orderId,
-      userId: orderProduct.userId,
-      productId: orderProduct.productId,
+    const storedorderItem = await this.searchOne({
+      orderId: orderItem.orderId,
+      userId: orderItem.userId,
+      productId: orderItem.productId,
     });
 
-    if (storedOrderProduct) {
+    if (storedorderItem) {
       throw ApiError.badRequest("Can't save, this product is already exist");
     }
 
-    await orderItemRepository.save(orderProduct);
+    await orderItemRepository.save(orderItem);
   } catch (error) {
     throw ApiError.from(error);
   }

@@ -1,4 +1,4 @@
-const userProductService = require("../services/user-products-service");
+const userProductService = require("../services/user-product-service");
 const StatusCode = require("../utils/status-code");
 
 exports.getAll = async (req, res, next) => {

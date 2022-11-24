@@ -1,5 +1,5 @@
-const cartItemRepository = require("../repositories/cart-products-repository");
-const userProductService = require("../services/user-products-service");
+const cartItemRepository = require("../repositories/cart-item-repository");
+const userProductService = require("./user-product-service");
 const cartService = require("../services/cart-service");
 const ApiError = require("../utils/api-error");
 
@@ -23,17 +23,17 @@ exports.searchAll = async (searchAllCriteria) => {
 
 exports.searchOne = async (searchAllCriteria) => {
   try {
-    const cartProduct = await cartItemRepository.searchOne(searchAllCriteria);
-    return cartProduct;
+    const cartItem = await cartItemRepository.searchOne(searchAllCriteria);
+    return cartItem;
   } catch (error) {
     throw ApiError.from(error);
   }
 };
 
-exports.save = async (cartProduct) => {
+exports.save = async (cartItem) => {
   try {
-    let storedCart = cartService.getByUserId(cartProduct.customerId);
-    let storeduserProduct = userProductService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
+    let storedCart = cartService.getByUserId(cartItem.customerId);
+    let storeduserProduct = userProductService.searchAll({ userId: cartItem.userId, productId: cartItem.productId });
 
     [storedCart, storeduserProduct] = await Promise.all([storedCart, storeduserProduct]);
 
@@ -45,57 +45,57 @@ exports.save = async (cartProduct) => {
       throw ApiError.badRequest("Can't save, the seller does not have this product");
     }
 
-    cartProduct.cartId = storedCart.id;
+    cartItem.cartId = storedCart.id;
 
-    const storedCartProduct = await this.searchOne({ cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId });
+    const storedcartItem = await this.searchOne({ cartId: cartItem.cartId, userId: cartItem.userId, productId: cartItem.productId });
 
-    if (storedCartProduct) {
+    if (storedcartItem) {
       throw ApiError.badRequest("Can't save, this product is already exist");
     }
 
-    await cartItemRepository.save(cartProduct);
+    await cartItemRepository.save(cartItem);
   } catch (error) {
     throw ApiError.from(error);
   }
 };
 
-exports.update = async (cartProduct) => {
+exports.update = async (cartItem) => {
   try {
-    const storedCart = await cartService.getByUserId(cartProduct.customerId);
+    const storedCart = await cartService.getByUserId(cartItem.customerId);
 
     if (!storedCart) {
       throw ApiError.badRequest("Can't update, this user does not exist");
     }
 
-    cartProduct.cartId = storedCart.id;
-    const storedCartProduct = await this.searchOne({ cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId });
+    cartItem.cartId = storedCart.id;
+    const storedcartItem = await this.searchOne({ cartId: cartItem.cartId, userId: cartItem.userId, productId: cartItem.productId });
 
-    if (!storedCartProduct) {
+    if (!storedcartItem) {
       throw ApiError.badRequest("Can't update, this product does not exist on the cart");
     }
 
-    await cartItemRepository.update(cartProduct);
+    await cartItemRepository.update(cartItem);
   } catch (error) {
     throw ApiError.from(error);
   }
 };
 
-exports.delete = async (cartProduct) => {
+exports.delete = async (cartItem) => {
   try {
-    const storedCart = await cartService.getByUserId(cartProduct.customerId);
+    const storedCart = await cartService.getByUserId(cartItem.customerId);
 
     if (!storedCart) {
       throw ApiError.badRequest("Can't delete, this user does not exist");
     }
 
-    cartProduct.cartId = storedCart.id;
-    const storedCartProduct = await this.searchOne({ cartId: cartProduct.cartId, userId: cartProduct.userId, productId: cartProduct.productId });
+    cartItem.cartId = storedCart.id;
+    const storedcartItem = await this.searchOne({ cartId: cartItem.cartId, userId: cartItem.userId, productId: cartItem.productId });
 
-    if (!storedCartProduct) {
+    if (!storedcartItem) {
       throw ApiError.badRequest("Can't delete, this product does not exist on the cart");
     }
 
-    await cartItemRepository.delete(cartProduct);
+    await cartItemRepository.delete(cartItem);
   } catch (error) {
     throw ApiError.from(error);
   }

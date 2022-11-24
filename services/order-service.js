@@ -1,7 +1,7 @@
 const orderRepository = require("../repositories/order-repository");
 const cartService = require("../services/cart-service");
-const cartProductsService = require("../services/cart-products-service");
-const orderProductsService = require("../services/order-products-service");
+const cartItemService = require("./cart-item-service");
+const orderItemService = require("./order-item-service");
 const ApiError = require("../utils/api-error");
 
 exports.getByUserId = async (userId) => {
@@ -63,23 +63,23 @@ exports.save = async (userId) => {
       throw ApiError.badRequest("Can't save, this user does not exist");
     }
 
-    const storedCartProducts = await cartProductsService.searchAll({ cartId: storedCart.id });
+    const storedcartItem = await cartItemService.searchAll({ cartId: storedCart.id });
 
-    if (!storedCartProducts.length) {
+    if (!storedcartItem.length) {
       throw ApiError.badRequest("Can't save, the cart is empty");
     }
 
     const storedOrder = await orderRepository.save(userId);
 
     await Promise.all(
-      storedCartProducts.map(async (storedCartProduct) => {
-        const orderProduct = {
+      storedcartItem.map(async (storedcartItem) => {
+        const orderItem = {
           orderId: storedOrder.id,
-          userId: storedCartProduct.userId,
-          productId: storedCartProduct.productId,
-          quantity: storedCartProduct.quantity,
+          userId: storedcartItem.userId,
+          productId: storedcartItem.productId,
+          quantity: storedcartItem.quantity,
         };
-        await orderProductsService.save(orderProduct);
+        await orderItemService.save(orderItem);
       })
     );
 

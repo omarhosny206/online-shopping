@@ -1,7 +1,7 @@
 const userService = require("../services/user-service");
 const productService = require("../services/product-service");
-const orderProductsService = require("../services/order-products-service");
-const userProductsService = require("../services/user-products-service");
+const orderItemService = require("../services/order-item-service");
+const userProductService = require("../services/user-product-service");
 const tables = require("../utils/tables");
 const ApiError = require("../utils/api-error");
 
@@ -54,27 +54,27 @@ exports.searchOne = async (searchAllCriteria) => {
 
 exports.getInfo = async (order) => {
   try {
-    const orderProducts = await orderProductsService.searchAll({ orderId: order.id });
+    const orderItem = await orderItemService.searchAll({ orderId: order.id });
     let price = 0;
 
     const details = await Promise.all(
-      orderProducts.map(async (orderProduct) => {
-        let product = productService.getById(orderProduct.productId);
-        let seller = userService.getById(orderProduct.userId);
-        let customer = this.getUser(orderProduct.orderId);
-        let userProduct = userProductsService.searchAll({ userId: orderProduct.userId, productId: orderProduct.productId });
+      orderItem.map(async (orderItem) => {
+        let product = productService.getById(orderItem.productId);
+        let seller = userService.getById(orderItem.userId);
+        let customer = this.getUser(orderItem.orderId);
+        let userProduct = userProductService.searchAll({ userId: orderItem.userId, productId: orderItem.productId });
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 
-        price += userProduct.price * orderProduct.quantity;
+        price += userProduct.price * orderItem.quantity;
 
         return {
           customerName: `${customer.firstName} ${customer.lastName}`,
           sellerName: `${seller.firstName} ${seller.lastName}`,
           productName: product.name,
           productPrice: userProduct.price,
-          quantity: orderProduct.quantity,
-          totalPrice: userProduct.price * orderProduct.quantity,
+          quantity: orderItem.quantity,
+          totalPrice: userProduct.price * orderItem.quantity,
         };
       })
     );

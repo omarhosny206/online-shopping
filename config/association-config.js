@@ -7,8 +7,8 @@ exports.create = () => {
   tables.product.belongsTo(tables.category, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
   tables.category.hasMany(tables.product);
 
-  tables.user.belongsToMany(tables.product, { through: tables.userProducts });
-  tables.product.belongsToMany(tables.user, { through: tables.userProducts });
+  tables.user.belongsToMany(tables.product, { through: tables.userProduct });
+  tables.product.belongsToMany(tables.user, { through: tables.userProduct });
 
   tables.order.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
   tables.user.hasMany(tables.order);
@@ -16,21 +16,21 @@ exports.create = () => {
   tables.cart.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
   tables.user.hasMany(tables.cart);
 
-  tables.orderProducts.belongsTo(tables.product, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.product.hasMany(tables.orderProducts);
+  tables.orderItem.belongsTo(tables.product, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.product.hasMany(tables.orderItem);
 
-  tables.orderProducts.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.user.hasMany(tables.orderProducts);
+  tables.orderItem.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.user.hasMany(tables.orderItem);
 
-  tables.orderProducts.belongsTo(tables.order, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.order.hasMany(tables.orderProducts);
+  tables.orderItem.belongsTo(tables.order, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.order.hasMany(tables.orderItem);
 
-  tables.cartProducts.belongsTo(tables.product, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.product.hasMany(tables.cartProducts);
+  tables.cartItem.belongsTo(tables.product, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.product.hasMany(tables.cartItem);
 
-  tables.cartProducts.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.user.hasMany(tables.cartProducts);
+  tables.cartItem.belongsTo(tables.user, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.user.hasMany(tables.cartItem);
 
-  tables.cartProducts.belongsTo(tables.cart, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
-  tables.cart.hasMany(tables.cartProducts);
+  tables.cartItem.belongsTo(tables.cart, { constraints: true, onDelete: "CASCADE", foreignKey: { allowNull: false } });
+  tables.cart.hasMany(tables.cartItem);
 };

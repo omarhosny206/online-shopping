@@ -1,10 +1,10 @@
-const cartProductsService = require("../services/cart-products-service");
+const cartItemService = require("../services/cart-item-service");
 const productService = require("../services/product-service");
 const userService = require("../services/user-service");
-const userProductsService = require("../services/user-products-service");
+const userProductService = require("../services/user-product-service");
 
 const tables = require("../utils/tables");
-const ApiErorr = require("../utils/api-error");
+const ApiError = require("../utils/api-error");
 
 const Cart = tables.cart;
 const User = tables.user;
@@ -14,7 +14,7 @@ exports.getById = async (id) => {
     const cart = await Cart.findByPk(id);
     return cart;
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -29,7 +29,7 @@ exports.getUser = async (id) => {
     const user = cart.user;
     return user;
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -39,33 +39,33 @@ exports.getByUserId = async (userId) => {
     const cart = await Cart.findOne(predicate);
     return cart;
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };
 
 exports.getInfo = async (cart) => {
   try {
-    const cartProducts = await cartProductsService.searchAll({ cartId: cart.id });
+    const cartItem = await cartItemService.searchAll({ cartId: cart.id });
     let price = 0;
 
     const details = await Promise.all(
-      cartProducts.map(async (cartProduct) => {
-        let product = productService.getById(cartProduct.productId);
-        let seller = userService.getById(cartProduct.userId);
-        let customer = this.getUser(cartProduct.cartId);
-        let userProduct = userProductsService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
+      cartItem.map(async (cartItem) => {
+        let product = productService.getById(cartItem.productId);
+        let seller = userService.getById(cartItem.userId);
+        let customer = this.getUser(cartItem.cartId);
+        let userProduct = userProductService.searchAll({ userId: cartItem.userId, productId: cartItem.productId });
 
         [product, seller, customer, userProduct] = await Promise.all([product, seller, customer, userProduct]);
 
-        price += userProduct.price * cartProduct.quantity;
+        price += userProduct.price * cartItem.quantity;
 
         return {
           customerName: `${customer.firstName} ${customer.lastName}`,
           sellerName: `${seller.firstName} ${seller.lastName}`,
           productName: product.name,
           productPrice: userProduct.price,
-          quantity: cartProduct.quantity,
-          totalPrice: userProduct.price * cartProduct.quantity,
+          quantity: cartItem.quantity,
+          totalPrice: userProduct.price * cartItem.quantity,
         };
       })
     );
@@ -73,7 +73,7 @@ exports.getInfo = async (cart) => {
     const info = { price: price, details: details };
     return info;
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };
 
@@ -83,14 +83,14 @@ exports.save = async (userId) => {
     const storedCart = await Cart.create(cart);
     return storedCart;
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };
 
 exports.clear = async (cart) => {
   try {
-    await cartProductsService.clear(cart.id);
+    await cartItemService.clear(cart.id);
   } catch (error) {
-    throw ApiErorr.from(error);
+    throw ApiError.from(error);
   }
 };

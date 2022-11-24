@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/sequelize-config");
 
-const UserProducts = sequelize.define(
-  "user_products",
+const UserProduct = sequelize.define(
+  "user_product",
   {
     price: {
       type: Sequelize.DOUBLE,
@@ -18,4 +18,4 @@ const UserProducts = sequelize.define(
   }
 );
 
-module.exports = UserProducts;
+module.exports = UserProduct;
