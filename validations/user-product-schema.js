@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-exports.userProductsSchema = Joi.object({
+exports.userProductSchema = Joi.object({
   productId: Joi.number().required(),
   price: Joi.number().required(),
 });

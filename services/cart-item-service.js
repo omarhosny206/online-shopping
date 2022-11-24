@@ -1,12 +1,12 @@
-const cartProductsRepository = require("../repositories/cart-products-repository");
-const userProductsService = require("../services/user-products-service");
+const cartItemRepository = require("../repositories/cart-products-repository");
+const userProductService = require("../services/user-products-service");
 const cartService = require("../services/cart-service");
 const ApiError = require("../utils/api-error");
 
 exports.getAll = async () => {
   try {
-    const cartProducts = await cartProductsRepository.getAll();
-    return cartProducts;
+    const cartItem = await cartItemRepository.getAll();
+    return cartItem;
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -14,8 +14,8 @@ exports.getAll = async () => {
 
 exports.searchAll = async (searchAllCriteria) => {
   try {
-    const cartProducts = await cartProductsRepository.searchAll(searchAllCriteria);
-    return cartProducts;
+    const cartItem = await cartItemRepository.searchAll(searchAllCriteria);
+    return cartItem;
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -23,7 +23,7 @@ exports.searchAll = async (searchAllCriteria) => {
 
 exports.searchOne = async (searchAllCriteria) => {
   try {
-    const cartProduct = await cartProductsRepository.searchOne(searchAllCriteria);
+    const cartProduct = await cartItemRepository.searchOne(searchAllCriteria);
     return cartProduct;
   } catch (error) {
     throw ApiError.from(error);
@@ -33,15 +33,15 @@ exports.searchOne = async (searchAllCriteria) => {
 exports.save = async (cartProduct) => {
   try {
     let storedCart = cartService.getByUserId(cartProduct.customerId);
-    let storedUserProducts = userProductsService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
+    let storeduserProduct = userProductService.searchAll({ userId: cartProduct.userId, productId: cartProduct.productId });
 
-    [storedCart, storedUserProducts] = await Promise.all([storedCart, storedUserProducts]);
+    [storedCart, storeduserProduct] = await Promise.all([storedCart, storeduserProduct]);
 
     if (!storedCart) {
       throw ApiError.badRequest("Can't save, this user does not exist");
     }
 
-    if (!storedUserProducts) {
+    if (!storeduserProduct) {
       throw ApiError.badRequest("Can't save, the seller does not have this product");
     }
 
@@ -53,7 +53,7 @@ exports.save = async (cartProduct) => {
       throw ApiError.badRequest("Can't save, this product is already exist");
     }
 
-    await cartProductsRepository.save(cartProduct);
+    await cartItemRepository.save(cartProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -74,7 +74,7 @@ exports.update = async (cartProduct) => {
       throw ApiError.badRequest("Can't update, this product does not exist on the cart");
     }
 
-    await cartProductsRepository.update(cartProduct);
+    await cartItemRepository.update(cartProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -95,7 +95,7 @@ exports.delete = async (cartProduct) => {
       throw ApiError.badRequest("Can't delete, this product does not exist on the cart");
     }
 
-    await cartProductsRepository.delete(cartProduct);
+    await cartItemRepository.delete(cartProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -103,13 +103,13 @@ exports.delete = async (cartProduct) => {
 
 exports.clear = async (cartId) => {
   try {
-    const storedCartProducts = await this.searchAll({ cartId: cartId });
+    const storedcartItem = await this.searchAll({ cartId: cartId });
 
-    if (!storedCartProducts.length) {
+    if (!storedcartItem.length) {
       throw ApiError.badRequest("Can't clear this cart, it is already empty");
     }
 
-    await cartProductsRepository.clear(cartId);
+    await cartItemRepository.clear(cartId);
   } catch (error) {
     throw ApiError.from(error);
   }

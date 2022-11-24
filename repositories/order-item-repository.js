@@ -1,13 +1,13 @@
 const tables = require("../utils/tables");
 const ApiError = require("../utils/api-error");
 
-const OrderProducts = tables.orderProducts;
+const orderItem = tables.orderItem;
 
 exports.searchAll = async (searchAllCriteria) => {
   try {
     const predicate = { where: { ...searchAllCriteria } };
-    const orderProducts = await OrderProducts.findAll(predicate);
-    return orderProducts;
+    const orderItem = await orderItem.findAll(predicate);
+    return orderItem;
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -16,8 +16,8 @@ exports.searchAll = async (searchAllCriteria) => {
 exports.searchOne = async (searchAllCriteria) => {
   try {
     const predicate = { where: { ...searchAllCriteria } };
-    const orderProducts = await OrderProducts.findOne(predicate);
-    return orderProducts;
+    const orderItem = await orderItem.findOne(predicate);
+    return orderItem;
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -25,7 +25,7 @@ exports.searchOne = async (searchAllCriteria) => {
 
 exports.save = async (orderProduct) => {
   try {
-    const storedOrderProduct = await OrderProducts.create(orderProduct);
+    const storedOrderProduct = await orderItem.create(orderProduct);
     return storedOrderProduct;
   } catch (error) {
     throw ApiError.from(error);

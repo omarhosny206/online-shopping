@@ -1,12 +1,12 @@
-const userProductsRepository = require("../repositories/user-products-repository");
+const userProductRepository = require("../repositories/user-products-repository");
 const userService = require("../services/user-service");
 const productService = require("../services/product-service");
 const ApiError = require("../utils/api-error");
 
 exports.getAll = async () => {
   try {
-    const userProducts = await userProductsRepository.getAll();
-    return userProducts;
+    const userProduct = await userProductRepository.getAll();
+    return userProduct;
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -14,7 +14,7 @@ exports.getAll = async () => {
 
 exports.searchAll = async (searchAllCriteria) => {
   try {
-    const userProduct = await userProductsRepository.searchAll(searchAllCriteria);
+    const userProduct = await userProductRepository.searchAll(searchAllCriteria);
     return userProduct;
   } catch (error) {
     throw ApiError.from(error);
@@ -23,7 +23,7 @@ exports.searchAll = async (searchAllCriteria) => {
 
 exports.getProductsById = async (id) => {
   try {
-    const products = await userProductsRepository.getProductsById(id);
+    const products = await userProductRepository.getProductsById(id);
     return products;
   } catch (error) {
     throw ApiError.from(error);
@@ -50,7 +50,7 @@ exports.save = async (userProduct) => {
       throw ApiError.badRequest("Can't save, this is already exist");
     }
 
-    await userProductsRepository.save(userProduct);
+    await userProductRepository.save(userProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -76,7 +76,7 @@ exports.update = async (userProduct) => {
       throw ApiError.badRequest("Can't update, this does not exist");
     }
 
-    await userProductsRepository.update(userProduct);
+    await userProductRepository.update(userProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
@@ -102,7 +102,7 @@ exports.delete = async (userProduct) => {
       throw ApiError.badRequest("Can't delete, this does not exist");
     }
 
-    await userProductsRepository.delete(userProduct);
+    await userProductRepository.delete(userProduct);
   } catch (error) {
     throw ApiError.from(error);
   }
