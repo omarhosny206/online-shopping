@@ -1,23 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const userProductController = require("../controllers/user-product-controller");
+const authentication = require("../middlewares/authentication");
 const authorization = require("../middlewares/authorization");
 const { userProductSchema } = require("../validations/user-product-schema");
 const validator = require("../middlewares/validator");
 const Roles = require("../utils/roles");
 
-router.use(authorization.authorizeToken);
+router.use(authentication.authenticateByToken);
 
-router.get("/", authorization.authorizeRole([Roles.ADMIN]), userProductController.getAll);
-router.get("/products", authorization.authorizeRole([Roles.SELLER]), userProductController.getProducts);
-router.get("/:id", authorization.authorizeRole([Roles.ADMIN]), userProductController.getAll);
-router.get("/:userId/products", authorization.authorizeRole([Roles.ADMIN]), userProductController.getAll);
-router.get("/:productId/users", authorization.authorizeRole([Roles.ADMIN]), userProductController.getAll);
+router.get("/", authorization.authorizeByRole([Roles.ADMIN]), userProductController.getAll);
+router.get("/products", authorization.authorizeByRole([Roles.SELLER]), userProductController.getProducts);
+router.get("/:id", authorization.authorizeByRole([Roles.ADMIN]), userProductController.getAll);
+router.get("/:userId/products", authorization.authorizeByRole([Roles.ADMIN]), userProductController.getAll);
+router.get("/:productId/users", authorization.authorizeByRole([Roles.ADMIN]), userProductController.getAll);
 
-router.post("/", authorization.authorizeRole([Roles.SELLER]), validator.validate(userProductSchema), userProductController.save);
+router.post("/", authorization.authorizeByRole([Roles.SELLER]), validator.validate(userProductSchema), userProductController.save);
 
-router.put("/", authorization.authorizeRole([Roles.SELLER]), validator.validate(userProductSchema), userProductController.update);
+router.put("/", authorization.authorizeByRole([Roles.SELLER]), validator.validate(userProductSchema), userProductController.update);
 
-router.delete("/:productId", authorization.authorizeRole([Roles.SELLER]), userProductController.delete);
+router.delete("/:productId", authorization.authorizeByRole([Roles.SELLER]), userProductController.delete);
 
 module.exports = router;

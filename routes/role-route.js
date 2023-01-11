@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const roleController = require("../controllers/role-controller");
+const authentication = require("../middlewares/authentication");
 const authorization = require("../middlewares/authorization");
 const { roleSchema } = require("../validations/role-schema");
 const validator = require("../middlewares/validator");
 const Roles = require("../utils/roles");
 
-router.use(authorization.authorizeToken);
-router.use(authorization.authorizeRole([Roles.ADMIN]));
+router.use(authentication.authenticateByToken);
+router.use(authorization.authorizeByRole([Roles.ADMIN]));
 
 router.get("/", roleController.getAll);
 router.get("/searchAll", roleController.searchAll);
