@@ -50,7 +50,9 @@ exports.save = async (cartItem) => {
     const storedcartItem = await this.searchOne({ cartId: cartItem.cartId, userId: cartItem.userId, productId: cartItem.productId });
 
     if (storedcartItem) {
-      throw ApiError.badRequest("Can't save, this product is already exist");
+      storedcartItem.quantity += cartItem.quantity;
+      await cartItemRepository.update(storedcartItem);
+      return;
     }
 
     await cartItemRepository.save(cartItem);
