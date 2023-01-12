@@ -9,14 +9,14 @@ exports.login = async (user) => {
     const storedUser = await userService.getByEmail(email);
 
     if (!storedUser) {
-      throw ApiError.badRequest("Invalid email");
+      throw ApiError.unauthorized("Bad Credentials: Invalid email");
     }
 
     const hashedPassword = storedUser.password;
     const areEqualPasswords = await bcrypt.compare(password, hashedPassword);
 
     if (!areEqualPasswords) {
-      throw ApiError.badRequest("Invalid password");
+      throw ApiError.unauthorized("Bad Credentials: Invalid password");
     }
 
     const token = await jwt.generate(email);
