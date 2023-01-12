@@ -14,6 +14,10 @@ exports.authenticateByToken = async (req, res, next) => {
     const payload = await jwt.verify(token);
     const user = await userService.getByEmail(payload.email);
 
+    if (!user) {
+      throw ApiError.unauthorized("Unauthorized: user not found");
+    }
+
     req.user = user;
     next();
   } catch (error) {
