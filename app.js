@@ -20,9 +20,9 @@ const errorHandler = require("./middlewares/error-handler");
 const sequelize = require("./config/sequelize-config");
 const association = require("./config/association-config");
 
-const PORT = process.env.PORT;
-
 dotenv.config();
+
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
