@@ -4,7 +4,7 @@ const StatusCode = require("../utils/status-code");
 exports.save = async (req, res, next) => {
   try {
     const cartItem = req.body;
-    cartItem.customerId = req.user.id;
+    cartItem.customerId = req.authenticatedUser.id;
     await cartItemService.save(cartItem);
     return res.status(StatusCode.CREATED).json({ message: "Created successfully" });
   } catch (error) {
@@ -15,7 +15,7 @@ exports.save = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const cartItem = req.body;
-    cartItem.customerId = req.user.id;
+    cartItem.customerId = req.authenticatedUser.id;
     await cartItemService.update(cartItem);
     return res.status(StatusCode.OK).json({ message: "Updated successfully" });
   } catch (error) {
@@ -26,7 +26,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const cartItem = req.body;
-    cartItem.customerId = req.user.id;
+    cartItem.customerId = req.authenticatedUser.id;
     await cartItemService.delete(cartItem);
     return res.status(StatusCode.OK).json({ message: "Deleted successfully" });
   } catch (error) {

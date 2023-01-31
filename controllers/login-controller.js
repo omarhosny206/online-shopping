@@ -4,8 +4,8 @@ const StatusCode = require("../utils/status-code");
 exports.login = async (req, res, next) => {
   try {
     const user = req.body;
-    const token = await loginService.login(user);
-    return res.status(StatusCode.OK).json({ token: token });
+    const result = await loginService.login(user);
+    return res.status(StatusCode.OK).json(result);
   } catch (error) {
     return next(error);
   }

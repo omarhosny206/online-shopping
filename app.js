@@ -13,6 +13,7 @@ const categoryRoute = require("./routes/category-route");
 const roleRoute = require("./routes/role-route");
 const signupRoute = require("./routes/signup-route");
 const loginRoute = require("./routes/login-route");
+const expiredAccessTokenHandlerRoute = require("./routes/expired-access-token-handler-route");
 
 const notFoundHandler = require("./middlewares/not-found-handler");
 const errorHandler = require("./middlewares/error-handler");
@@ -37,6 +38,7 @@ app.use("/cart-products", cartItemRoute);
 app.use("/orders", orderRoute);
 app.use("/categories", categoryRoute);
 app.use("/roles", roleRoute);
+app.use("/token", expiredAccessTokenHandlerRoute);
 
 app.use(notFoundHandler.handle);
 app.use(errorHandler.handle);

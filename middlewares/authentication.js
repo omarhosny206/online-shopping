@@ -7,18 +7,18 @@ exports.authenticateByToken = async (req, res, next) => {
     const authorizationHeader = req.headers["authorization"];
 
     if (!authorizationHeader || !authorizationHeader.startsWith("Bearer")) {
-      throw ApiError.unauthorized("Unauthorized: token not provided");
+      throw ApiError.unauthorized("Unauthorized: access token not provided");
     }
 
-    const token = authorizationHeader.slice(7);
-    const payload = await jwt.verify(token);
+    const accessToken = authorizationHeader.slice(7);
+    const payload = await jwt.verifyAccessToken(accessToken);
     const user = await userService.getByEmail(payload.email);
 
     if (!user) {
       throw ApiError.unauthorized("Unauthorized: user not found");
     }
 
-    req.user = user;
+    req.authenticatedUser = user;
     next();
   } catch (error) {
     return next(error);

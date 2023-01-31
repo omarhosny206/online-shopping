@@ -3,7 +3,7 @@ const StatusCode = require("../utils/status-code");
 
 exports.getByUserId = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.authenticatedUser.id;
     const orders = await orderService.getByUserId(userId);
     return res.status(StatusCode.OK).json(orders);
   } catch (error) {
@@ -33,7 +33,7 @@ exports.getUser = async (req, res, next) => {
 
 exports.getInfo = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.authenticatedUser.id;
     const id = parseInt(req.params.id);
     const order = { id: id, userId: userId };
     console.log(order);
@@ -46,7 +46,7 @@ exports.getInfo = async (req, res, next) => {
 
 exports.save = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.authenticatedUser.id;
     await orderService.save(userId);
     return res.status(StatusCode.CREATED).json({ message: "Created successfully" });
   } catch (error) {

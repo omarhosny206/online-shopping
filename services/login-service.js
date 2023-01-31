@@ -19,8 +19,10 @@ exports.login = async (user) => {
       throw ApiError.unauthorized("Bad Credentials: Invalid password");
     }
 
-    const token = await jwt.generate(email);
-    return token;
+    const accessToken = await jwt.generateAccessToken(email);
+    const refreshToken = await jwt.generateRefreshToken(email);
+
+    return { user: storedUser, accessToken: accessToken, refreshToken: refreshToken };
   } catch (error) {
     throw ApiError.from(error);
   }

@@ -3,7 +3,7 @@ const ApiError = require("../utils/api-error");
 
 exports.authorizeByRole = (allowedRoles) => async (req, res, next) => {
   try {
-    const role = await userService.getRole(req.user.id);
+    const role = await userService.getRole(req.authenticatedUser.id);
     const isAuthorized = allowedRoles.includes(role);
 
     if (!isAuthorized) {

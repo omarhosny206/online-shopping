@@ -12,7 +12,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getProducts = async (req, res, next) => {
   try {
-    const id = req.user.id;
+    const id = req.authenticatedUser.id;
     const products = await userProductService.getProductsById(id);
     return res.status(StatusCode.OK).json(products);
   } catch (error) {
@@ -23,7 +23,7 @@ exports.getProducts = async (req, res, next) => {
 exports.save = async (req, res, next) => {
   try {
     const userProduct = req.body;
-    userProduct.userId = req.user.id;
+    userProduct.userId = req.authenticatedUser.id;
     await userProductService.save(userProduct);
     return res.status(StatusCode.CREATED).json({ message: "Created successfully" });
   } catch (error) {
@@ -34,7 +34,7 @@ exports.save = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const userProduct = req.body;
-    userProduct.userId = req.user.id;
+    userProduct.userId = req.authenticatedUser.id;
     await userProductService.update(userProduct);
     return res.status(StatusCode.OK).json({ message: "Updated successfully" });
   } catch (error) {
@@ -44,7 +44,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    const userProduct = { userId: req.user.id, productId: req.params.productId };
+    const userProduct = { userId: req.authenticatedUser.id, productId: req.params.productId };
     await userProductService.delete(userProduct);
     return res.status(StatusCode.OK).json({ message: "Deleted successfully" });
   } catch (error) {
